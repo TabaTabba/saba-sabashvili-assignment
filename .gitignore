@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.turbo/
+.expo/
+*.log
+.DS_Store
+.vscode/
+.idea/
+.browsers/
+screenshots/
+*.tsbuildinfo
+.env
+.env.local
