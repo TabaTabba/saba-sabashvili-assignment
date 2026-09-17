@@ -5,7 +5,9 @@ design as a frontend assignment.
 
 ## Non-negotiable: this is a shared Mac
 
-Node v18.18.2 is the shell default and Expo SDK 54 rejects it. **Prefix every shell command:**
+Your shell default is Node **v20.16.0** (`/usr/local/bin/node`, a system install that shadows nvm —
+the nvm `default` alias says 18.18.2 but never wins). 20.16.0 does **not** satisfy Vite 8, which
+needs `^20.19.0 || >=22.12.0`. **Prefix every shell command:**
 
 ```bash
 export PATH="$HOME/.nvm/versions/node/v20.20.0/bin:$PATH" && <command>
