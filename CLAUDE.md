@@ -96,13 +96,25 @@ No abstraction until three real callers. Prefer the boring, direct implementatio
 
 ESLint enforces the colour half of that: a raw `#hex`, `rgb()`/`rgba()` or `hsl()`/`hsla()` string
 anywhere under `apps/*/src` or `packages/*/src` is an error. Only
-`packages/shared-ui/src/theme/**` is exempt — that's where tokens are defined. Raw spacing and font
--size *numbers* are not machine-checkable, so they're on the reviewer to catch.
+`packages/shared-ui/src/theme/tokens.ts` is exempt — that one file is the palette. Raw spacing and
+font-size *numbers* are not machine-checkable, so they're on the reviewer to catch.
+
+ESLint also cannot see JSON, so `apps/native/app.json`'s window colours are guarded by
+`apps/native/appConfig.test.ts`, which asserts they equal `palette.night`.
 
 ## Version notes that bit us
 
 - **Tamagui is v2**, not v1. Config preset is `@tamagui/config/v4`. We set
   `onlyAllowShorthands: false` so components read `backgroundColor`, not `bg`.
+- **Tamagui's `size` token group is a component-height scale, not spacing** — its `$true` is 44, a
+  button height. We keep Tamagui's own `size` and put measured design constants in `layout` (plain
+  numbers, not tokens), because Tamagui steps tokens by sorted numeric index and salting a group
+  with one-off values makes `$4` step to the wrong neighbour.
+- **The config keeps only the `dark` theme, layered over Tamagui's default dark.** The default dark
+  carries ~130 keys built-ins read (`outlineColor`, `placeholderColor`, `shadowColor`,
+  `background0x`); replacing it wholesale breaks them silently. Carrying the other 293 themes is not
+  an option either — Tamagui types themes by their shared shape, so custom keys like `$accent` stop
+  resolving.
 - **Reanimated is v4**, not v3. Its Babel plugin moved to `react-native-worklets/plugin` and must be
   the last entry in `babel.config.js`.
 - **Vite is v8.** `optimizeDeps.esbuildOptions` is gone; it uses Rolldown.

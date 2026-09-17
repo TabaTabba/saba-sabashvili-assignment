@@ -47,14 +47,15 @@ export default tseslint.config(
   {
     // Every colour in app and package source comes from a token. theme/ is where they're defined.
     files: ['apps/*/src/**/*.{ts,tsx}', 'apps/*/*.tsx', 'packages/*/src/**/*.{ts,tsx}'],
-    ignores: ['packages/shared-ui/src/theme/**'],
+    // Only the palette file may hold raw colour values.
+    ignores: ['packages/shared-ui/src/theme/tokens.ts'],
     rules: {
       'no-restricted-syntax': ['error', noDefaultExport, noRawColor],
     },
   },
   {
     // The Tamagui config augmentation requires an empty extending interface.
-    files: ['packages/shared-ui/src/theme/**/*.ts'],
+    files: ['packages/shared-ui/src/theme/tamagui.config.ts'],
     rules: { '@typescript-eslint/no-empty-object-type': 'off' },
   },
   prettier,

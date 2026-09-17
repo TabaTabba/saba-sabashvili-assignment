@@ -8,15 +8,18 @@
     "ios": "expo start --ios",
     "android": "expo start --android",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@duxcasino/shared-api": "0.0.0",
     "@duxcasino/shared-stores": "0.0.0",
     "@duxcasino/shared-ui": "0.0.0",
+    "@expo-google-fonts/rubik": "^0.4.2",
     "@tamagui/config": "^2.7.7",
     "@tanstack/react-query": "^5.103.1",
     "expo": "~54.0.36",
+    "expo-font": "~14.0.12",
     "expo-image": "~3.0.11",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
@@ -27,6 +30,7 @@
     "tamagui": "^2.7.7"
   },
   "devDependencies": {
-    "@types/react": "~19.1.0"
+    "@types/react": "~19.1.0",
+    "vitest": "^3.2.7"
   }
 }
