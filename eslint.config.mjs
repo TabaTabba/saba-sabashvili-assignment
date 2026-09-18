@@ -54,6 +54,20 @@ export default tseslint.config(
     },
   },
   {
+    // tsconfig.base.json puts DOM in `lib` for every package, so a DOM global in a file Metro
+    // resolves typechecks cleanly and then throws on device. TypeScript cannot scope `lib` per
+    // file, so the rule lives here instead. Deferred from Phase 0 until platform files existed.
+    files: ['**/*.native.{ts,tsx}'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        ...['document', 'localStorage', 'sessionStorage', 'HTMLElement', 'getComputedStyle'].map(
+          name => ({ name, message: `${name} does not exist on native.` }),
+        ),
+      ],
+    },
+  },
+  {
     // The Tamagui config augmentation requires an empty extending interface.
     files: ['packages/shared-ui/src/theme/tamagui.config.ts'],
     rules: { '@typescript-eslint/no-empty-object-type': 'off' },

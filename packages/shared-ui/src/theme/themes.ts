@@ -32,6 +32,25 @@ const darkOverrides = {
   signUpTop: palette.lilacSoft,
   signUpBottom: palette.lilacStrong,
 
+  // Tamagui's LinearGradient resolves `colors` against the theme, so gradient stops need theme
+  // keys rather than palette entries.
+  heroCtaTop: palette.orangeLight,
+  heroCtaBottom: palette.orange2,
+  promoCtaStart: palette.orangeWarm,
+  promoCtaEnd: palette.orangeDeep,
+
+  // Blends the promo card's artwork into its text column, and the card track into the page edge.
+  scrimStart: palette.violet2,
+  scrimEnd: palette.violet2Clear,
+  trackFadeStart: palette.nightClear,
+  trackFadeEnd: palette.night,
+
+  promoAmount: palette.orange3,
+  swipe: palette.blue,
+  pagingActive: palette.white,
+  pagingIdle: palette.violet1,
+  pagingIdleSmall: palette.violet7,
+
   accent: palette.orange2,
   accentHover: palette.orange2,
   accentPress: palette.orange2,

@@ -20,10 +20,14 @@
     "react": "*",
     "react-native": "*",
     "react-native-reanimated": "*",
-    "tamagui": "*"
+    "tamagui": "*",
+    "expo-image": "*"
   },
   "peerDependenciesMeta": {
     "react-native-reanimated": {
+      "optional": true
+    },
+    "expo-image": {
       "optional": true
     }
   },

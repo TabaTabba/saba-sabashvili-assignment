@@ -1,6 +1,6 @@
 import { createQueryClient } from '@duxcasino/shared-api'
 import type { GameCategory } from '@duxcasino/shared-api'
-import { TokenSwatches, TopNav, tamaguiConfig } from '@duxcasino/shared-ui'
+import { PromoSlider, TokenSwatches, TopNav, tamaguiConfig } from '@duxcasino/shared-ui'
 import {
   Rubik_500Medium,
   Rubik_600SemiBold,
@@ -35,6 +35,7 @@ function AppShell({ activeCategory, onSelectCategory }: AppShellProps) {
   return (
     <YStack flex={1} backgroundColor="$background" paddingTop={insets.top}>
       <TopNav activeCategory={activeCategory} onSelectCategory={onSelectCategory} />
+      <PromoSlider />
       <TokenSwatches />
     </YStack>
   )

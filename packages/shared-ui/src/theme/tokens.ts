@@ -7,11 +7,22 @@ export const palette = {
   violet2: '#260C39', // VIOLET/violet-2
   violet3: '#A993BD', // VIOLET/violet-3
   violet4: '#2C1A3D', // VIOLET/violet-4
+  violet7: '#553E6B', // VIOLET/violet-7
   orange2: '#FE8607', // ORANGE/orange-2
+  orange3: '#FD972B', // ORANGE/orange-3
   red: '#FF0A00', // red-2 — renamed: Tamagui's dark theme already owns `red2`
   night: '#10001F', // background
   lilacSoft: 'rgba(219, 182, 255, 0.23)',
   lilacStrong: 'rgba(219, 182, 255, 0.35)',
+  // Zero-alpha twins of violet2 and night. A gradient to a transparent *black* interpolates
+  // through grey on both platforms, so each fade ends on its own colour at alpha 0.
+  violet2Clear: 'rgba(38, 12, 57, 0)',
+  nightClear: 'rgba(16, 0, 31, 0)',
+  // The four below are raw fills in Figma, not named variables, so they carry descriptive names.
+  orangeLight: '#FEB83F', // hero CTA gradient, top stop
+  orangeWarm: '#FB9B33', // promo-card CTA gradient, start
+  orangeDeep: '#FD652E', // promo-card CTA gradient, end
+  blue: '#2D66F6', // swipe button circle
 } as const
 
 const positiveSpace = {
@@ -143,4 +154,67 @@ export const nav = {
   burgerBarWidth: 14,
   burgerBarHeight: 2,
   burgerBarGap: 3,
+} as const
+
+// Promo geometry, measured off the three design frames. The design draws two different components
+// here: a full-bleed hero banner on the laptop page (49:177) and a card carousel on the tablet
+// (72:1306) and phone (96:5100) pages. `tablet` and `phone` share a key shape so one lookup picks
+// either; `hero` is its own shape because it lays out nothing like a card.
+export const promo = {
+  hero: {
+    frameWidth: 1366,
+    height: 455,
+    bannerHeight: 392.25, // 49:178
+    blockWidth: 414, // 50:222
+    blockHeight: 395,
+    blockTop: 60,
+    blockGap: 30, // inner stack -> payments strip
+    innerGap: 10, // heading / amount / subline / CTA
+    ctaWidth: 312, // 55:562
+    ctaHeight: 68,
+    arrowSize: 32, // 107:3682
+    arrowInset: 61,
+    arrowTop: 215,
+  },
+  tablet: {
+    gutter: 16,
+    cardGap: 20,
+    cardWidth: 358, // 70:1292
+    cardHeight: 236,
+    textWidth: 152, // 68:1282
+    textGap: 2,
+    padding: 16,
+    ctaHeight: 36, // 68:1272
+    ctaPaddingHorizontal: 23,
+    arrowSize: 24, // 70:1643
+    arrowInset: 4,
+    fadeWidth: 76, // 72:1304 — the scroll affordance over the trailing card
+    dotWidth: 30, // 71:1303
+    dotHeight: 5,
+    dotGap: 14,
+    dotRowHeight: 40, // 71:1297
+  },
+  phone: {
+    gutter: 16,
+    cardGap: 20,
+    cardWidth: 288, // 96:5031
+    cardHeight: 190,
+    textWidth: 156, // 96:5023
+    textGap: 2,
+    padding: 16,
+    ctaHeight: 30, // 96:5028
+    ctaPaddingHorizontal: 12,
+    // The phone frame draws no arrows — see the deviation note in PromoSlider.
+    arrowSize: 24,
+    arrowInset: 4,
+    fadeWidth: 0,
+    dotWidth: 6, // 96:5098
+    dotHeight: 6,
+    dotGap: 10,
+    dotRowHeight: 16, // 96:5101
+  },
+  dotRadius: 3,
+  // payments [1] vector 52:303. Scaled by width below $xl, so the ratio is what matters.
+  paymentsWidth: 414,
+  paymentsHeight: 22.476,
 } as const

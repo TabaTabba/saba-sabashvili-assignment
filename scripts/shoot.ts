@@ -5,6 +5,8 @@ import { chromium } from 'playwright'
 
 const BREAKPOINTS = [360, 390, 768, 1024, 1280, 1366, 1440, 1920] as const
 
+const ARTWORK_TIMEOUT_MS = 8000
+
 const [, , urlArg, labelArg, widthArg] = process.argv
 
 const url = urlArg ?? 'http://localhost:5173'
@@ -43,6 +45,32 @@ async function main() {
         await page.close()
         continue
       }
+
+      // The promo slider advances on a timer and its artwork comes from the network, so without
+      // both of these the sweep captures a different slide at every width. Parking the pointer over
+      // the slider is how a visitor pauses it, so this exercises the real behaviour rather than
+      // reaching for a test hook.
+      const slider = await page.$('[aria-label="Promotions"]')
+      const sliderBox = await slider?.boundingBox()
+      if (sliderBox) await page.mouse.move(sliderBox.x + sliderBox.width / 2, sliderBox.y + 8)
+
+      // Off-screen slides are lazy and may never load, so only what is on screen has to be ready.
+      await page
+        .waitForFunction(
+          () =>
+            Array.prototype.every.call(document.images, function (image: HTMLImageElement) {
+              const box = image.getBoundingClientRect()
+              const onScreen =
+                box.right > 0 &&
+                box.left < window.innerWidth &&
+                box.bottom > 0 &&
+                box.top < window.innerHeight
+              return !onScreen || image.complete
+            }),
+          null,
+          { timeout: ARTWORK_TIMEOUT_MS },
+        )
+        .catch(() => console.warn(`${width}px → artwork did not finish loading`))
 
       // Let entry animations and skeleton swaps settle before capturing.
       await page.waitForTimeout(1200)

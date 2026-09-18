@@ -4,7 +4,7 @@ import { layout, palette, radius } from '../theme/tokens'
 import { ApiDemo } from './ApiDemo'
 import { StoreDemo } from './StoreDemo'
 
-const FONT_STEPS = ['1', '2', '3', '4', '5', '6', '7', '8'] as const
+const FONT_STEPS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
 const RADIUS_STEPS = ['0', '1', '2', '3', 'true', '4', '5', 'pill'] as const
 const SPACE_STEPS = ['1', '2', '3', '4', '5', '6', '8', '10', '12'] as const
 const THEME_COLORS = [
@@ -16,6 +16,10 @@ const THEME_COLORS = [
   'borderColor',
   'accent',
   'danger',
+  'promoAmount',
+  'swipe',
+  'pagingIdle',
+  'pagingIdleSmall',
 ] as const
 const PALETTE_NAMES = [
   'white',
@@ -23,7 +27,13 @@ const PALETTE_NAMES = [
   'violet2',
   'violet3',
   'violet4',
+  'violet7',
   'orange2',
+  'orange3',
+  'orangeLight',
+  'orangeWarm',
+  'orangeDeep',
+  'blue',
   'red',
   'night',
 ] as const

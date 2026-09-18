@@ -10,7 +10,8 @@ const rubikFamily = isWeb
   ? 'Rubik, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
   : 'Rubik_500Medium'
 
-// Rubik at 10/12/14/16/20/22/30/112; line height is 100% except CAPS/H3 (30 on 35).
+// Rubik at 10/12/14/16/20/22/30/32/112. Line height is 100% except CAPS/H3 (30 on 35) and the two
+// steps Figma leaves on auto, which it renders at 1.1875x — the €500 text box measures 133 on 112.
 export const rubik = createFont({
   family: rubikFamily,
   size: {
@@ -22,7 +23,8 @@ export const rubik = createFont({
     5: 20, // H5
     6: 22, // CAPS/H4
     7: 30, // CAPS/H3
-    8: 112, // CAPS/HERO
+    8: 32, // H4 — Montserrat in Figma, see the substitution note in PromoCard
+    9: 112, // CAPS/HERO
   },
   lineHeight: {
     1: 10,
@@ -33,7 +35,8 @@ export const rubik = createFont({
     5: 20,
     6: 22,
     7: 35,
-    8: 112,
+    8: 38,
+    9: 133,
   },
   // Weight keys follow size keys. 12/14/16 carry two Figma styles (sentence case and CAPS), so
   // they default to sentence case and CAPS sets fontWeight; the rest match their one Figma style.
@@ -47,6 +50,7 @@ export const rubik = createFont({
     6: '700',
     7: '700',
     8: '700',
+    9: '700',
   },
   letterSpacing: {
     1: 0,
