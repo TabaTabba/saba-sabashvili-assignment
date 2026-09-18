@@ -1,3 +1,4 @@
+export { PopularGames } from './features/popular-games'
 export { PromoSlider } from './features/promo-slider'
 export { TopNav } from './features/top-nav'
 export { tamaguiConfig } from './theme/tamagui.config'

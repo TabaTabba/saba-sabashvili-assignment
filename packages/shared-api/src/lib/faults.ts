@@ -1,4 +1,4 @@
-export type FaultKey = 'balance' | 'heroSlides' | 'games' | 'favourite'
+export type FaultKey = 'balance' | 'heroSlides' | 'games' | 'gamesEmpty' | 'favourite'
 
 const active = new Set<FaultKey>()
 

@@ -1,6 +1,12 @@
 import { createQueryClient } from '@duxcasino/shared-api'
 import type { GameCategory } from '@duxcasino/shared-api'
-import { PromoSlider, TokenSwatches, TopNav, tamaguiConfig } from '@duxcasino/shared-ui'
+import {
+  PopularGames,
+  PromoSlider,
+  TokenSwatches,
+  TopNav,
+  tamaguiConfig,
+} from '@duxcasino/shared-ui'
 import {
   Rubik_500Medium,
   Rubik_600SemiBold,
@@ -12,7 +18,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { TamaguiProvider, YStack } from 'tamagui'
+import { ScrollView, TamaguiProvider, YStack } from 'tamagui'
 
 interface AppShellProps {
   activeCategory: GameCategory
@@ -35,8 +41,12 @@ function AppShell({ activeCategory, onSelectCategory }: AppShellProps) {
   return (
     <YStack flex={1} backgroundColor="$background" paddingTop={insets.top}>
       <TopNav activeCategory={activeCategory} onSelectCategory={onSelectCategory} />
-      <PromoSlider />
-      <TokenSwatches />
+      {/* Pad the scroll content, never the scroll container — see PROGRESS. */}
+      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom }}>
+        <PromoSlider />
+        <PopularGames category={activeCategory} />
+        <TokenSwatches />
+      </ScrollView>
     </YStack>
   )
 }

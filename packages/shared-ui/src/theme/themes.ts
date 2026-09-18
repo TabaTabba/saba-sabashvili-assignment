@@ -45,6 +45,18 @@ const darkOverrides = {
   trackFadeStart: palette.nightClear,
   trackFadeEnd: palette.night,
 
+  // The games counter badge (77:1419) and the HOT RTP tile badge (107:3820) are both gradients,
+  // so their stops need theme keys too.
+  counterTop: palette.violet7,
+  counterBottom: palette.violetDeep,
+  hotRtpStart: palette.redSoft,
+  hotRtpEnd: palette.orangeSoft,
+  hotRtpBorder: palette.red,
+  linesBadge: palette.violet1,
+  tileScrimStart: palette.nightClear,
+  tileScrimEnd: palette.night,
+  counterChip: palette.blue,
+
   promoAmount: palette.orange3,
   swipe: palette.blue,
   pagingActive: palette.white,

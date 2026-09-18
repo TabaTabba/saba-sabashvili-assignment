@@ -3,7 +3,8 @@ import type { GameCategory } from '@duxcasino/shared-api'
 import { LANGUAGES, useUserStore } from '@duxcasino/shared-stores'
 import { Separator, Text, YStack } from 'tamagui'
 
-import { CATEGORY_LABELS, HAIRLINE, NAV_LINKS } from '../constants'
+import { CATEGORY_LABELS } from '../../../lib/categories'
+import { HAIRLINE, NAV_LINKS } from '../constants'
 import { LanguageOption } from './LanguageSelector'
 import { NavItem } from './NavItem'
 

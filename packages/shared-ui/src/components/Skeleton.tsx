@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react'
 import { YStack } from 'tamagui'
 
-import { SKELETON_DIM, SKELETON_PULSE_MS } from '../constants'
+// The design has no loading state; this is a raised surface at the caller's corner radius.
+const PULSE_MS = 700
+const DIM = 0.45
 
-interface PromoSkeletonProps {
+interface SkeletonProps {
   width: number | '100%'
   height: number
   borderRadius: number
+  label: string
 }
 
-export function PromoSkeleton({ width, height, borderRadius }: PromoSkeletonProps) {
+export function Skeleton({ width, height, borderRadius, label }: SkeletonProps) {
   const [isDim, setIsDim] = useState(false)
 
   useEffect(() => {
-    const timer = setInterval(() => setIsDim(dim => !dim), SKELETON_PULSE_MS)
+    const timer = setInterval(() => setIsDim(dim => !dim), PULSE_MS)
     return () => clearInterval(timer)
   }, [])
 
@@ -23,10 +26,10 @@ export function PromoSkeleton({ width, height, borderRadius }: PromoSkeletonProp
       height={height}
       borderRadius={borderRadius}
       backgroundColor="$surfaceRaised"
-      opacity={isDim ? SKELETON_DIM : 1}
+      opacity={isDim ? DIM : 1}
       transition="slow"
       aria-busy
-      aria-label="Loading promotions"
+      aria-label={label}
     />
   )
 }

@@ -22,7 +22,10 @@ export const palette = {
   orangeLight: '#FEB83F', // hero CTA gradient, top stop
   orangeWarm: '#FB9B33', // promo-card CTA gradient, start
   orangeDeep: '#FD652E', // promo-card CTA gradient, end
-  blue: '#2D66F6', // swipe button circle
+  blue: '#2D66F6', // swipe button circle and the games counter chip
+  violetDeep: '#3E2952', // games counter badge gradient, end (77:1419)
+  redSoft: 'rgba(255, 10, 0, 0.7)', // HOT RTP badge gradient, start (107:3820)
+  orangeSoft: 'rgba(253, 110, 21, 0.7)', // HOT RTP badge gradient, end
 } as const
 
 const positiveSpace = {
@@ -63,15 +66,10 @@ export const space = { ...positiveSpace, ...negativeSpace }
 export const layout = {
   gutter: 74, // page side margin
   contentWidth: 1218, // 1366 - (74 * 2)
-  gridColumnGap: 17, // 46:52
-  gridRowGap: 18, // 46:52
-  gameTile: 230, // 46:52
   navHeight: 90, // 70:1363
   heroHeight: 455, // 49:177
   swipeButton: 32, // 49:177
   ratingsHeight: 144, // 55:566
-  viewMoreWidth: 228, // 56:840
-  viewMoreHeight: 46, // 56:840
 } as const
 
 // Not from Figma — the design's corners read as a 4/8/12/16 family plus pills.
@@ -217,4 +215,111 @@ export const promo = {
   // payments [1] vector 52:303. Scaled by width below $xl, so the ratio is what matters.
   paymentsWidth: 414,
   paymentsHeight: 22.476,
+} as const
+
+// Measured off laptop 55:829, tablet 76:1412, phone 98:5136. `tileSize` is the frame's tile, not
+// the rendered one — the small frames' rows overflow (by 94 and 64) to signal the scroll, so tiles
+// flex to the measured width instead. `*Font` keys are Tamagui steps, not measurements.
+export const games = {
+  laptop: {
+    gutter: 74,
+    columns: 5,
+    columnGap: 17, // 46:52
+    rowGap: 18,
+    tileSize: 230,
+    // 55:828 is 55 tall with 30 of bottom padding, so its 35-tall text overflows 5 above the frame.
+    headingHeight: 55,
+    headingPaddingBottom: 30,
+    headerFont: '$7', // 55:830 is Rubik Bold 30/35 caps
+    headerWeight: 'bold',
+    // Below $xl only; the laptop frame heads the section with a title instead of a counter row.
+    // Present so the three sets share a shape, as `nav` does with `frameWidth: undefined`.
+    headerPaddingTop: undefined,
+    headerHeight: undefined,
+    headerGap: undefined,
+    counterWidth: undefined,
+    counterHeight: undefined,
+    counterChipFont: undefined,
+    counterHasGradient: false,
+    badgeSize: 32, // 107:3803 — the Labels row is 32 tall, inset 8, gap 4
+    badgeInset: 8,
+    badgeGap: 4,
+    badgePaddingHorizontal: 9,
+    badgeBorderWidth: 2,
+    hotRtpWidth: 100, // 107:3820 is a fixed 100 wide; below $xl the pill sizes to its text
+    chipHeight: 22,
+    badgeFont: '$4',
+    labelFont: '$3',
+    favouriteGlyph: 24,
+    viewMoreGap: 36, // 56:840 — the 228x46 button sits 36 below the grid
+  },
+  tablet: {
+    gutter: 16,
+    columns: 5,
+    columnGap: 20, // 81:1364
+    rowGap: 20,
+    tileSize: 150,
+    headingHeight: undefined,
+    headingPaddingBottom: 0,
+    headerFont: '$4', // 80:1360 is Rubik Bold 16 caps
+    headerWeight: 'bold',
+    headerPaddingTop: 20, // 80:1357
+    headerHeight: 32,
+    headerGap: 10, // header ends at 52, tiles start at 62
+    counterWidth: 112, // 80:1348
+    counterHeight: 32,
+    counterChipFont: '$2', // 77:1418 is Rubik Medium 12 on the tablet frame
+    counterHasGradient: true,
+    badgeSize: 24,
+    badgeInset: 6,
+    badgeGap: 4,
+    badgePaddingHorizontal: 7,
+    badgeBorderWidth: 1.5,
+    hotRtpWidth: undefined,
+    chipHeight: 18,
+    badgeFont: '$2',
+    labelFont: '$2',
+    favouriteGlyph: 18,
+    viewMoreGap: 24,
+  },
+  phone: {
+    gutter: 16,
+    columns: 3,
+    columnGap: 16, // 98:5147
+    rowGap: 16,
+    tileSize: 120,
+    headingHeight: undefined,
+    headingPaddingBottom: 0,
+    headerFont: '$3', // 98:5142 is Rubik SemiBold 14 caps
+    headerWeight: 'semibold',
+    headerPaddingTop: 20, // 98:5137
+    headerHeight: 32,
+    headerGap: 10,
+    // The phone counter drops the tablet's violet gradient and keeps only the blue chip.
+    counterWidth: 91, // 98:5144
+    counterHeight: 26,
+    // 98:5144's chip is Rubik Regular 14. We ship no Regular face, so the step's Medium stands in.
+    counterChipFont: '$3',
+    counterHasGradient: false,
+    badgeSize: 20,
+    badgeInset: 5,
+    badgeGap: 3,
+    badgePaddingHorizontal: 6,
+    badgeBorderWidth: 1,
+    hotRtpWidth: undefined,
+    chipHeight: 15,
+    badgeFont: '$1',
+    labelFont: '$1',
+    favouriteGlyph: 15,
+    viewMoreGap: 20,
+  },
+  // Shared across breakpoints.
+  frameWidth: 1366, // the laptop frame; above it the section centres, as the header does
+  tileRadius: 6, // 107:3940
+  counterChipHeight: 20, // 77:1417
+  counterChipPaddingHorizontal: 3,
+  counterGap: 10,
+  counterPaddingHorizontal: 9,
+  viewMoreWidth: 228, // 56:840
+  viewMoreHeight: 46,
 } as const

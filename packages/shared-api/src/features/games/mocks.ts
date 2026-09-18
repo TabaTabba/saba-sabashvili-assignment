@@ -1,4 +1,4 @@
-import { failIfFaulty } from '../../lib/faults'
+import { failIfFaulty, isFaultActive } from '../../lib/faults'
 import { latency } from '../../lib/latency'
 import type { Game, GameCategory, GamesPage, GamesQuery } from './types'
 
@@ -79,7 +79,12 @@ export async function fetchGames({ category, page, pageSize }: GamesQuery): Prom
   await latency()
   failIfFaulty('games', 'Could not load games')
 
-  const matching = category === 'all' ? ALL_GAMES : ALL_GAMES.filter(g => g.category === category)
+  // Every category holds 12 games, so the grid's empty state is otherwise unreachable.
+  const matching = isFaultActive('gamesEmpty')
+    ? []
+    : category === 'all'
+      ? ALL_GAMES
+      : ALL_GAMES.filter(g => g.category === category)
   const start = page * pageSize
 
   return {

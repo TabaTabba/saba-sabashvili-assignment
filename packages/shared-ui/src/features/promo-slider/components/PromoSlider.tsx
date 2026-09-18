@@ -5,6 +5,7 @@ import { useState } from 'react'
 import type { LayoutChangeEvent } from 'react-native'
 import { Text, XStack, YStack, useMedia } from 'tamagui'
 
+import { Skeleton } from '../../../components/Skeleton'
 import { DEMO_USER } from '../../../lib/demoUser'
 import { pressable } from '../../../lib/pressable'
 import { promo, radius } from '../../../theme/tokens'
@@ -13,7 +14,6 @@ import { HeroSlide } from './HeroSlide'
 import { PagingDots } from './PagingDots'
 import { PaymentsStrip } from './PaymentsStrip'
 import { PromoCard } from './PromoCard'
-import { PromoSkeleton } from './PromoSkeleton'
 import { SwipeButton } from './SwipeButton'
 
 const { hero } = promo
@@ -100,10 +100,11 @@ export function PromoSlider() {
         </YStack>
       ) : isPending || !slides ? (
         <YStack paddingHorizontal={isHero ? 0 : size.gutter} alignItems="center">
-          <PromoSkeleton
+          <Skeleton
             width={isHero ? '100%' : size.cardWidth}
             height={isHero ? hero.bannerHeight : size.cardHeight}
             borderRadius={radius[4]}
+            label="Loading promotions"
           />
         </YStack>
       ) : (

@@ -5,9 +5,10 @@ import { Text, XStack, YStack } from 'tamagui'
 
 import CaretDown from '../../../assets/caret-down.svg'
 import { fontWeight } from '../../../theme/fonts'
+import { CATEGORY_LABELS } from '../../../lib/categories'
 import { pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
-import { CATEGORY_LABELS, HAIRLINE, PANEL } from '../constants'
+import { HAIRLINE, PANEL } from '../constants'
 
 const PANEL_TOP = 26
 

@@ -56,6 +56,13 @@ describe('fetchGames', () => {
       'Could not load games',
     )
   })
+
+  // Every category holds 12 games, so this fault is the only route to the grid's empty state.
+  it('returns an empty page when the gamesEmpty fault is set', async () => {
+    setFault('gamesEmpty', true)
+    const page = await fetchGames({ category: 'live', page: 0, pageSize: 10 })
+    expect(page).toMatchObject({ games: [], total: 0, hasMore: false })
+  })
 })
 
 describe('setGameFavourite', () => {
