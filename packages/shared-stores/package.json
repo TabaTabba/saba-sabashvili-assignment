@@ -14,9 +14,15 @@
     "zustand": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "@react-native-async-storage/async-storage": "^2.2.0"
   },
   "devDependencies": {
     "vitest": "^3.2.7"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-async-storage/async-storage": {
+      "optional": true
+    }
   }
 }

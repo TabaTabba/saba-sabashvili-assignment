@@ -1,6 +1,7 @@
 import { ScrollView, Text, XStack, YStack } from 'tamagui'
 
-import { layout, palette, radius } from './tokens'
+import { layout, palette, radius } from '../theme/tokens'
+import { StoreDemo } from './StoreDemo'
 
 const FONT_STEPS = ['1', '2', '3', '4', '5', '6', '7', '8'] as const
 const RADIUS_STEPS = ['0', '1', '2', '3', 'true', '4', '5', 'pill'] as const
@@ -94,6 +95,8 @@ export function TokenSwatches({ topInset = 0 }: TokenSwatchesProps) {
         <Text fontSize="$7" lineHeight="$7" color="$color">
           DuxCasino design tokens
         </Text>
+
+        <StoreDemo />
 
         <Section title="Palette — from Figma variables">
           <XStack flexWrap="wrap" gap="$4">

@@ -63,10 +63,13 @@ The very first run of all is the exception: Expo Go has to download, and `openur
 ```
 apps/web          Vite + React + Tamagui
 apps/native       Expo SDK 54 + Tamagui
-packages/shared-ui       features/{top-nav,promo-slider,popular-games} + theme
+packages/shared-ui       features/{top-nav,promo-slider,popular-games} + theme + dev
 packages/shared-api      features/{balance,hero-slides,games} — React Query + mocks
 packages/shared-stores   features/user — Zustand + persist
 ```
+
+`shared-ui/src/dev/` holds throwaway demo screens that prove the tokens and store resolve on both
+platforms. Delete the whole folder in Phase 7.
 
 Packages export TypeScript source directly (`"main": "src/index.ts"`) — no build step. Vite compiles
 it; Metro resolves it via `watchFolders` pointing at the repo root.
