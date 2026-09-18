@@ -3,9 +3,10 @@ import { useUserStore } from '@duxcasino/shared-stores'
 import { Text, XStack } from 'tamagui'
 
 import { fontWeight } from '../../../theme/fonts'
-import { pressable } from '../../../lib/pressable'
+import { DEMO_USER } from '../../../lib/demoUser'
+import { aboveGradient } from '../../../lib/gradient'
+import { PRESS_OPACITY, pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
-import { DEMO_USER, PRESS_OPACITY } from '../constants'
 
 interface AuthButtonsProps {
   width: number
@@ -57,7 +58,13 @@ interface LabelProps {
 
 function Label({ children }: LabelProps) {
   return (
-    <Text fontSize="$3" fontWeight={fontWeight.semibold} textTransform="uppercase" color="$color">
+    <Text
+      {...aboveGradient}
+      fontSize="$3"
+      fontWeight={fontWeight.semibold}
+      textTransform="uppercase"
+      color="$color"
+    >
       {children}
     </Text>
   )

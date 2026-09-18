@@ -1,9 +1,8 @@
 import type { GameCategory } from '@duxcasino/shared-api'
-import type { Language, User } from '@duxcasino/shared-stores'
+import type { Language } from '@duxcasino/shared-stores'
 
 export const NAV_LINKS = ['Live', 'Promotions', 'VIP', 'Dux boxes', 'Path do rewards'] as const
 
-export const PRESS_OPACITY = 0.8
 export const HAIRLINE = 1
 
 export const PANEL = {
@@ -34,11 +33,4 @@ export const LANGUAGE_LOCALES: Record<Language, string> = {
   de: 'de-DE',
   fr: 'fr-FR',
   it: 'it-IT',
-}
-
-export const DEMO_USER: User = {
-  id: 'u_1',
-  username: 'LuckyDux',
-  avatarUrl: '',
-  currency: 'EUR',
 }

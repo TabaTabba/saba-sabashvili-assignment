@@ -2,10 +2,9 @@ import { useUserStore } from '@duxcasino/shared-stores'
 import { Image, Spinner, Text, XStack, YStack } from 'tamagui'
 
 import RefreshIcon from '../../../assets/icon-refresh.svg'
-import { pressable } from '../../../lib/pressable'
+import { PRESS_OPACITY, pressable } from '../../../lib/pressable'
 import { fontWeight } from '../../../theme/fonts'
 import { nav } from '../../../theme/tokens'
-import { PRESS_OPACITY } from '../constants'
 import { BalanceDisplay } from './BalanceDisplay'
 
 const REFRESH_ICON = 16

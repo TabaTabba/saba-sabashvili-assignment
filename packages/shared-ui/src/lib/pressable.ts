@@ -1,5 +1,8 @@
 const FOCUS_RING = 2
 
+// Every pressable in the design dims rather than tints on press.
+export const PRESS_OPACITY = 0.8
+
 export function pressable(onPress: () => void) {
   return {
     role: 'button',

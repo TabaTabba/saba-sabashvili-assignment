@@ -1,8 +1,7 @@
 import { View, YStack } from 'tamagui'
-import { pressable } from '../../../lib/pressable'
+import { PRESS_OPACITY, pressable } from '../../../lib/pressable'
 
 import { nav } from '../../../theme/tokens'
-import { PRESS_OPACITY } from '../constants'
 
 interface BurgerButtonProps {
   size: number
