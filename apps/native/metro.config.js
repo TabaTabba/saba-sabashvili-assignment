@@ -16,4 +16,10 @@ config.resolver.nodeModulesPaths = [
 config.resolver.disableHierarchicalLookup = true
 config.resolver.unstable_enablePackageExports = true
 
+// SVGs compile to react-native-svg components rather than being copied as assets, so the same
+// `import Logo from './logo.svg'` works on both platforms (Vite does this with vite-plugin-svgr).
+config.transformer.babelTransformerPath = require.resolve('react-native-svg-transformer/expo')
+config.resolver.assetExts = config.resolver.assetExts.filter(ext => ext !== 'svg')
+config.resolver.sourceExts = [...config.resolver.sourceExts, 'svg']
+
 module.exports = config

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  // Ambient declarations every package needs. `files` is inherited by configs that only set
+  // `include`, so each package picks these up without repeating the path.
+  "files": ["types/svg.d.ts"],
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
