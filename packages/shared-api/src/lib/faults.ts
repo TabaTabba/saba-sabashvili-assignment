@@ -1,4 +1,8 @@
-export type FaultKey = 'balance' | 'heroSlides' | 'games' | 'gamesEmpty' | 'favourite'
+// Failures on demand, so the error, empty and rollback states are demonstrable rather than
+// luck-dependent. Nothing in the UI toggles them — `applyFaultsFromQuery` below is the way in.
+export const FAULT_KEYS = ['balance', 'heroSlides', 'games', 'gamesEmpty', 'favourite'] as const
+
+export type FaultKey = (typeof FAULT_KEYS)[number]
 
 const active = new Set<FaultKey>()
 
@@ -17,4 +21,13 @@ export function failIfFaulty(key: FaultKey, message: string) {
 
 export function clearFaults() {
   active.clear()
+}
+
+// `?fault=games,balance` arms those keys before the first render. Web only: the native app has no
+// query string, and a deep-link parser would mean a dependency for a debug flag.
+export function applyFaultsFromQuery(search: string) {
+  const requested = new URLSearchParams(search).get('fault')?.split(',') ?? []
+  for (const key of FAULT_KEYS) {
+    if (requested.includes(key)) setFault(key, true)
+  }
 }

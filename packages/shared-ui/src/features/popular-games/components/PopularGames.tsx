@@ -119,6 +119,8 @@ export function PopularGames({ category }: PopularGamesProps) {
       maxWidth={games.frameWidth}
       alignSelf="center"
       paddingHorizontal={size.gutter}
+      paddingTop={size.sectionPaddingTop}
+      paddingBottom={size.sectionPaddingBottom}
       aria-label="Popular games"
     >
       <GamesHeader category={category} total={total} isLaptop={isLaptop} size={size} />

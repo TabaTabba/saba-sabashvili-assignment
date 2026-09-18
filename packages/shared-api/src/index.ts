@@ -14,5 +14,4 @@ export {
 export type { Game, GameBadges, GameCategory, GamesPage, GamesQuery } from './features/games'
 
 export { createQueryClient } from './lib/queryClient'
-export { setFault } from './lib/faults'
-export type { FaultKey } from './lib/faults'
+export { applyFaultsFromQuery } from './lib/faults'

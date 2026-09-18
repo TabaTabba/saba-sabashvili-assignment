@@ -1,5 +1,5 @@
 // Colours and type scale come from Figma (file qaRkqLFqKabUtgnK2I4poR, laptop frame 28:6), each
-// tagged with its variable name. Spacing, radius and layout are measured — Figma defines none.
+// tagged with its variable name. Spacing, radius and geometry are measured — Figma defines none.
 
 export const palette = {
   white: '#FFFFFF', // white
@@ -60,17 +60,6 @@ const negativeSpace = {
 } as const
 
 export const space = { ...positiveSpace, ...negativeSpace }
-
-// Measured off the laptop frame. Kept out of the Tamagui token groups deliberately: Tamagui steps
-// tokens by sorted numeric value, so one-off numbers make `$4` step to the wrong neighbour.
-export const layout = {
-  gutter: 74, // page side margin
-  contentWidth: 1218, // 1366 - (74 * 2)
-  navHeight: 90, // 70:1363
-  heroHeight: 455, // 49:177
-  swipeButton: 32, // 49:177
-  ratingsHeight: 144, // 55:566
-} as const
 
 // Not from Figma — the design's corners read as a 4/8/12/16 family plus pills.
 export const radius = {
@@ -232,9 +221,12 @@ export const games = {
     headingPaddingBottom: 30,
     headerFont: '$7', // 55:830 is Rubik Bold 30/35 caps
     headerWeight: 'bold',
-    // Below $xl only; the laptop frame heads the section with a title instead of a counter row.
-    // Present so the three sets share a shape, as `nav` does with `frameWidth: undefined`.
-    headerPaddingTop: undefined,
+    // 55:829 itself has none — the page stacks its frames flush and section 03 RATINGS (55:566)
+    // supplies the air above the title. That strip is out of scope, so its own 46 top padding
+    // stands in, which keeps the design's rhythm below the hero banner.
+    sectionPaddingTop: 46,
+    // The laptop frame heads the section with a title, not a counter row. Present as undefined so
+    // the three sets share a shape, as `nav` does with `frameWidth`.
     headerHeight: undefined,
     headerGap: undefined,
     counterWidth: undefined,
@@ -252,6 +244,8 @@ export const games = {
     labelFont: '$3',
     favouriteGlyph: 24,
     viewMoreGap: 36, // 56:840 — the 228x46 button sits 36 below the grid
+    // 56:840 is 118 tall around a 46 button at y 36, so the section closes on the same 36.
+    sectionPaddingBottom: 36,
   },
   tablet: {
     gutter: 16,
@@ -263,7 +257,7 @@ export const games = {
     headingPaddingBottom: 0,
     headerFont: '$4', // 80:1360 is Rubik Bold 16 caps
     headerWeight: 'bold',
-    headerPaddingTop: 20, // 80:1357
+    sectionPaddingTop: 20, // 80:1357
     headerHeight: 32,
     headerGap: 10, // header ends at 52, tiles start at 62
     counterWidth: 112, // 80:1348
@@ -281,6 +275,8 @@ export const games = {
     labelFont: '$2',
     favouriteGlyph: 18,
     viewMoreGap: 24,
+    // 76:1412 is 232 around 212 of content.
+    sectionPaddingBottom: 20,
   },
   phone: {
     gutter: 16,
@@ -292,7 +288,7 @@ export const games = {
     headingPaddingBottom: 0,
     headerFont: '$3', // 98:5142 is Rubik SemiBold 14 caps
     headerWeight: 'semibold',
-    headerPaddingTop: 20, // 98:5137
+    sectionPaddingTop: 20, // 98:5137
     headerHeight: 32,
     headerGap: 10,
     // The phone counter drops the tablet's violet gradient and keeps only the blue chip.
@@ -312,6 +308,8 @@ export const games = {
     labelFont: '$1',
     favouriteGlyph: 15,
     viewMoreGap: 20,
+    // 98:5136, same shape as the tablet frame.
+    sectionPaddingBottom: 20,
   },
   // Shared across breakpoints.
   frameWidth: 1366, // the laptop frame; above it the section centres, as the header does

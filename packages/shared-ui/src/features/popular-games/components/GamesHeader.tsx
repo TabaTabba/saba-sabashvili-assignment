@@ -47,7 +47,7 @@ export function GamesHeader({ category, total, isLaptop, size }: GamesHeaderProp
   }
 
   return (
-    <YStack paddingTop={size.headerPaddingTop} paddingBottom={size.headerGap}>
+    <YStack paddingBottom={size.headerGap}>
       <XStack height={size.headerHeight} alignItems="center" justifyContent="space-between">
         {heading}
         {total === null ? null : <Counter total={total} size={size} />}
