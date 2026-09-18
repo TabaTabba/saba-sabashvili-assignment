@@ -11,12 +11,16 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.59.0"
+    "@duxcasino/shared-stores": "0.0.0",
+    "@tanstack/react-query": "^5.103.1"
   },
   "peerDependencies": {
     "react": "*"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "happy-dom": "^20.14.5",
     "vitest": "^3.2.7"
   }
 }

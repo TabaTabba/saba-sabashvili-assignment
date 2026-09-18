@@ -1,3 +1,4 @@
+import { createQueryClient } from '@duxcasino/shared-api'
 import { TokenSwatches, tamaguiConfig } from '@duxcasino/shared-ui'
 import {
   Rubik_500Medium,
@@ -5,7 +6,9 @@ import {
   Rubik_700Bold,
   useFonts,
 } from '@expo-google-fonts/rubik'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { StatusBar } from 'expo-status-bar'
+import { useState } from 'react'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { TamaguiProvider, YStack } from 'tamagui'
 
@@ -19,18 +22,23 @@ function AppShell() {
 
   return (
     <YStack flex={1} backgroundColor="$background">
+      {/* Rendering before the faces load shows fallback metrics, so hold the frame. */}
       {fontsLoaded ? <TokenSwatches topInset={insets.top} /> : null}
     </YStack>
   )
 }
 
 export function App() {
+  const [queryClient] = useState(createQueryClient)
+
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
-      <SafeAreaProvider>
-        <StatusBar style="light" />
-        <AppShell />
-      </SafeAreaProvider>
-    </TamaguiProvider>
+    <QueryClientProvider client={queryClient}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
+        <SafeAreaProvider>
+          <StatusBar style="light" />
+          <AppShell />
+        </SafeAreaProvider>
+      </TamaguiProvider>
+    </QueryClientProvider>
   )
 }

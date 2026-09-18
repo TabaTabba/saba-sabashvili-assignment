@@ -57,12 +57,12 @@ export function StoreDemo() {
       </Text>
 
       <YStack gap="$2">
-        <Row label="hydrated" value={String(hasHydrated)} />
-        <Row label="user" value={user ? user.username : 'signed out'} />
-        <Row label="balance" value={balance === null ? '—' : balance.toFixed(2)} />
-        <Row label="status" value={balanceStatus} />
-        <Row label="error" value={balanceError ?? '—'} />
-        <Row label="refreshToken" value={String(refreshToken)} />
+        <Row label="store hydrated" value={String(hasHydrated)} />
+        <Row label="store user" value={user ? user.username : 'signed out'} />
+        <Row label="store balance" value={balance === null ? '—' : balance.toFixed(2)} />
+        <Row label="store status" value={balanceStatus} />
+        <Row label="store error" value={balanceError ?? '—'} />
+        <Row label="store refreshToken" value={String(refreshToken)} />
       </YStack>
 
       <XStack gap="$2" flexWrap="wrap">

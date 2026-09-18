@@ -1,6 +1,7 @@
 import { ScrollView, Text, XStack, YStack } from 'tamagui'
 
 import { layout, palette, radius } from '../theme/tokens'
+import { ApiDemo } from './ApiDemo'
 import { StoreDemo } from './StoreDemo'
 
 const FONT_STEPS = ['1', '2', '3', '4', '5', '6', '7', '8'] as const
@@ -97,6 +98,8 @@ export function TokenSwatches({ topInset = 0 }: TokenSwatchesProps) {
         </Text>
 
         <StoreDemo />
+
+        <ApiDemo />
 
         <Section title="Palette — from Figma variables">
           <XStack flexWrap="wrap" gap="$4">
