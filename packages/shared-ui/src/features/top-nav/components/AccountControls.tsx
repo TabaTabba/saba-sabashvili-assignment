@@ -2,6 +2,7 @@ import { useUserStore } from '@duxcasino/shared-stores'
 import { Image, Spinner, Text, XStack, YStack } from 'tamagui'
 
 import RefreshIcon from '../../../assets/icon-refresh.svg'
+import { pressable } from '../../../lib/pressable'
 import { fontWeight } from '../../../theme/fonts'
 import { nav } from '../../../theme/tokens'
 import { PRESS_OPACITY } from '../constants'
@@ -35,10 +36,8 @@ export function AccountControls({ height, controlSize, gap }: AccountControlsPro
         alignItems="center"
         justifyContent="center"
         overflow="hidden"
-        cursor="pointer"
         pressStyle={{ opacity: PRESS_OPACITY }}
-        onPress={signOut}
-        role="button"
+        {...pressable(signOut)}
         aria-label={`Sign out ${user.username}`}
       >
         <Text fontSize="$3" fontWeight={fontWeight.bold} color="$color">
@@ -59,11 +58,9 @@ export function AccountControls({ height, controlSize, gap }: AccountControlsPro
         borderColor="$colorMuted"
         alignItems="center"
         justifyContent="center"
-        cursor="pointer"
         pressStyle={{ opacity: PRESS_OPACITY }}
         hoverStyle={{ borderColor: '$color' }}
-        onPress={refreshBalance}
-        role="button"
+        {...pressable(refreshBalance)}
         aria-label="Refresh balance"
       >
         {isRefreshing ? (

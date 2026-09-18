@@ -3,6 +3,7 @@ import { useUserStore } from '@duxcasino/shared-stores'
 import { Text, XStack } from 'tamagui'
 
 import { fontWeight } from '../../../theme/fonts'
+import { pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
 import { DEMO_USER, PRESS_OPACITY } from '../constants'
 
@@ -25,11 +26,9 @@ export function AuthButtons({ width, height, gap }: AuthButtonsProps) {
         borderColor="$colorMuted"
         alignItems="center"
         justifyContent="center"
-        cursor="pointer"
         pressStyle={{ opacity: PRESS_OPACITY }}
         hoverStyle={{ borderColor: '$color' }}
-        onPress={() => signIn(DEMO_USER)}
-        role="button"
+        {...pressable(() => signIn(DEMO_USER))}
       >
         <Label>Login</Label>
       </XStack>
@@ -43,10 +42,8 @@ export function AuthButtons({ width, height, gap }: AuthButtonsProps) {
         end={[0, 1]}
         alignItems="center"
         justifyContent="center"
-        cursor="pointer"
         pressStyle={{ opacity: PRESS_OPACITY }}
-        onPress={() => signIn(DEMO_USER)}
-        role="button"
+        {...pressable(() => signIn(DEMO_USER))}
       >
         <Label>Sign up</Label>
       </LinearGradient>

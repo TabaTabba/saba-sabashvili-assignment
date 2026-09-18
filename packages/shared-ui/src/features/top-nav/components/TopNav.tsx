@@ -30,7 +30,12 @@ export function TopNav({ activeCategory, onSelectCategory }: TopNavProps) {
   const authClusterWidth = size.authWidth * 2 + size.authGap
 
   return (
-    <YStack backgroundColor="$background">
+    <YStack
+      backgroundColor="$background"
+      onKeyDown={event => {
+        if (event.key === 'Escape') setIsMenuOpen(false)
+      }}
+    >
       <XStack
         width="100%"
         maxWidth={size.frameWidth}

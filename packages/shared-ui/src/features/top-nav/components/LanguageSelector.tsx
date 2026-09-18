@@ -7,6 +7,7 @@ import FlagDe from '../../../assets/flag-de.svg'
 import FlagFr from '../../../assets/flag-fr.svg'
 import FlagGb from '../../../assets/flag-gb.svg'
 import FlagIt from '../../../assets/flag-it.svg'
+import { pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
 import { HAIRLINE, LANGUAGE_LABELS, PANEL } from '../constants'
 
@@ -36,7 +37,12 @@ export function LanguageSelector({ size, flagWidth, flagHeight }: LanguageSelect
   }
 
   return (
-    <YStack onMouseLeave={() => setIsOpen(false)}>
+    <YStack
+      onMouseLeave={() => setIsOpen(false)}
+      onKeyDown={event => {
+        if (event.key === 'Escape') setIsOpen(false)
+      }}
+    >
       <YStack
         width={size}
         height={size}
@@ -46,11 +52,10 @@ export function LanguageSelector({ size, flagWidth, flagHeight }: LanguageSelect
         alignItems="center"
         justifyContent="center"
         overflow="hidden"
-        cursor="pointer"
         hoverStyle={{ borderColor: '$colorMuted' }}
-        onPress={() => setIsOpen(open => !open)}
-        role="button"
+        {...pressable(() => setIsOpen(open => !open))}
         aria-label={`Language: ${LANGUAGE_LABELS[language]}`}
+        aria-expanded={isOpen}
       >
         <Flag width={flagWidth} height={flagHeight} />
       </YStack>
@@ -96,11 +101,9 @@ export function LanguageOption({ language, isActive, onPress }: LanguageOptionPr
     <XStack
       alignItems="center"
       gap="$3"
-      cursor="pointer"
       hoverStyle={{ opacity: 1 }}
       opacity={isActive ? 1 : 0.7}
-      onPress={onPress}
-      role="button"
+      {...pressable(onPress)}
     >
       <Flag width={nav.laptop.flagWidth} height={nav.laptop.flagHeight} />
       <Text fontSize="$3" color={isActive ? '$accent' : '$color'}>

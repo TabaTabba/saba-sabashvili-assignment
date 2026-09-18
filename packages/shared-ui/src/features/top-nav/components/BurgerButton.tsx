@@ -1,4 +1,5 @@
 import { View, YStack } from 'tamagui'
+import { pressable } from '../../../lib/pressable'
 
 import { nav } from '../../../theme/tokens'
 import { PRESS_OPACITY } from '../constants'
@@ -17,11 +18,10 @@ export function BurgerButton({ size, isOpen, onPress }: BurgerButtonProps) {
       alignItems="center"
       justifyContent="center"
       gap={nav.burgerBarGap}
-      cursor="pointer"
       pressStyle={{ opacity: PRESS_OPACITY }}
-      onPress={onPress}
-      role="button"
+      {...pressable(onPress)}
       aria-label={isOpen ? 'Close menu' : 'Open menu'}
+      aria-expanded={isOpen}
     >
       {[0, 1, 2].map(bar => (
         <View

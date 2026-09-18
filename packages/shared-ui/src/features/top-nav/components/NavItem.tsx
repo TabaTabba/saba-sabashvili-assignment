@@ -1,6 +1,7 @@
 import { Text } from 'tamagui'
 
 import { fontWeight } from '../../../theme/fonts'
+import { pressable } from '../../../lib/pressable'
 
 interface NavItemProps {
   label: string
@@ -15,11 +16,9 @@ export function NavItem({ label, isActive, onPress }: NavItemProps) {
       fontWeight={fontWeight.bold}
       textTransform="uppercase"
       color={isActive ? '$accent' : '$color'}
-      cursor="pointer"
       hoverStyle={{ color: '$accent' }}
       pressStyle={{ color: '$accent' }}
-      onPress={onPress}
-      role="button"
+      {...(onPress ? pressable(onPress) : {})}
     >
       {label}
     </Text>

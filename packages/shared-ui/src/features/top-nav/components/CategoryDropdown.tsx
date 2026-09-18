@@ -5,6 +5,7 @@ import { Text, XStack, YStack } from 'tamagui'
 
 import CaretDown from '../../../assets/caret-down.svg'
 import { fontWeight } from '../../../theme/fonts'
+import { pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
 import { CATEGORY_LABELS, HAIRLINE, PANEL } from '../constants'
 
@@ -24,13 +25,17 @@ export function CategoryDropdown({ activeCategory, onSelectCategory }: CategoryD
   }
 
   return (
-    <YStack onMouseLeave={() => setIsOpen(false)}>
+    <YStack
+      onMouseLeave={() => setIsOpen(false)}
+      onKeyDown={event => {
+        if (event.key === 'Escape') setIsOpen(false)
+      }}
+    >
       <XStack
         alignItems="center"
         gap={nav.laptop.caretGap}
-        cursor="pointer"
-        onPress={() => setIsOpen(open => !open)}
-        role="button"
+        {...pressable(() => setIsOpen(open => !open))}
+        aria-expanded={isOpen}
       >
         <Text
           fontSize="$2"
@@ -68,10 +73,8 @@ export function CategoryDropdown({ activeCategory, onSelectCategory }: CategoryD
               fontWeight={fontWeight.bold}
               textTransform="uppercase"
               color={category === activeCategory ? '$accent' : '$color'}
-              cursor="pointer"
               hoverStyle={{ color: '$accent' }}
-              onPress={() => select(category)}
-              role="button"
+              {...pressable(() => select(category))}
             >
               {CATEGORY_LABELS[category]}
             </Text>
