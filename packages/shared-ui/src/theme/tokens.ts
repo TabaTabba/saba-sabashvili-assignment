@@ -10,6 +10,8 @@ export const palette = {
   orange2: '#FE8607', // ORANGE/orange-2
   red: '#FF0A00', // red-2 — renamed: Tamagui's dark theme already owns `red2`
   night: '#10001F', // background
+  lilacSoft: 'rgba(219, 182, 255, 0.23)',
+  lilacStrong: 'rgba(219, 182, 255, 0.35)',
 } as const
 
 const positiveSpace = {
@@ -71,4 +73,74 @@ export const radius = {
   4: 12,
   5: 16,
   pill: 999,
+} as const
+
+// Header geometry, measured off all three design frames: phone 96:4918, tablet 70:1473,
+// laptop 70:1363. Mobile-first — a component takes `phone` as its base and overrides at $md/$xl.
+export const nav = {
+  phone: {
+    height: 50,
+    gutter: 16,
+    logoWidth: 101.37,
+    logoHeight: 18,
+    authWidth: 78,
+    authHeight: 30,
+    authGap: 4,
+    controlSize: 30,
+    flagWidth: 14.93,
+    flagHeight: 10.67,
+    // Not in the phone frame — the design has no burger there. See the drawer note in TopNav.
+    burgerGap: 8,
+    // The phone frame spaces its three groups evenly, with no padded block.
+    leftBlockWidth: undefined,
+    rowPaddingBottom: 0,
+    frameWidth: undefined,
+  },
+  tablet: {
+    height: 100,
+    gutter: 16,
+    logoWidth: 148.5,
+    logoHeight: 27,
+    authWidth: 120,
+    authHeight: 45,
+    authGap: 7.5,
+    controlSize: 45,
+    flagWidth: 22.4,
+    flagHeight: 16,
+    burgerGap: 20, // left block 70:1529 — burger ends at 45, logo starts at 65
+    // 70:1529 is 368.5 wide but its content ends at 213.5. Without that trailing space the
+    // space-between distribution puts the Login pair ~78px left of the frame.
+    leftBlockWidth: 368.5,
+    // The tablet frame is the one that is not vertically centred: its 45px controls sit at y=17.5
+    // in a 100px header, 10px above centre. Reserved as bottom padding.
+    rowPaddingBottom: 20,
+    frameWidth: undefined,
+  },
+  laptop: {
+    height: 90,
+    gutter: 74,
+    logoWidth: 198,
+    logoHeight: 36,
+    authWidth: 120,
+    authHeight: 45,
+    authGap: 10,
+    controlSize: 45,
+    flagWidth: 22.4,
+    flagHeight: 16,
+    burgerGap: 0, // the laptop header has no burger; present so the three shapes match
+    leftBlockWidth: undefined,
+    rowPaddingBottom: 0,
+    frameWidth: 1366,
+    itemGap: 34,
+    caretGap: 4,
+  },
+  // Shared across breakpoints.
+  authRadius: 25,
+  borderWidth: 2,
+  caretWidth: 8.66,
+  caretHeight: 4.5,
+  // burger Menu 70:1522 — three 14x2 bars on a 5px pitch.
+  burgerBarWidth: 14,
+  burgerBarHeight: 2,
+  burgerBarGap: 3,
 } as const

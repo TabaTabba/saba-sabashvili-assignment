@@ -68,6 +68,10 @@ packages/shared-api      features/{balance,hero-slides,games} — React Query + 
 packages/shared-stores   features/user — Zustand + persist
 ```
 
+`shared-ui/src/assets/` holds the SVGs. **A plain `import Logo from './logo.svg'` yields a component
+on both platforms** — `react-native-svg-transformer` on Metro, an inline svgr plugin on Vite. The
+ambient type is `types/svg.d.ts`, pulled into every package by `files` in `tsconfig.base.json`.
+
 `shared-ui/src/dev/` holds throwaway demo screens that prove the tokens and store resolve on both
 platforms. Delete the whole folder in Phase 7.
 
@@ -118,9 +122,27 @@ ESLint also cannot see JSON, so `apps/native/app.json`'s window colours are guar
   `background0x`); replacing it wholesale breaks them silently. Carrying the other 293 themes is not
   an option either — Tamagui types themes by their shared shape, so custom keys like `$accent` stop
   resolving.
+- **Tamagui's `fastSchemeChange` must stay `false`.** The default is `true`, which resolves themed
+  colours through `DynamicColorIOS` — one value per colour scheme. This config carries only a `dark`
+  theme, so the light branch is an empty string and **every themed background silently stops
+  painting on iOS** (literal colours still work, so it reads as a layout bug). Expo Go follows the
+  host's appearance, not `app.json`'s `userInterfaceStyle`. Diagnose with
+  `console.log(theme.<key>.get())` before suspecting layout.
+- **Tamagui v2 exports `View`, not `Stack`**, and `View` takes no style variants — use `YStack` when
+  you need `rotate`, `transition`, etc. There is no `onHoverOut`; the web-only `onMouseLeave` is what
+  exists.
+- **The animation prop is `transition`, not `animation`** — v2 renamed it. `transition="quick"`, and
+  the key must exist in the driver or it is a type error.
+- **The animation driver is split by platform.** `theme/animations.ts` (CSS, web) and
+  `theme/animations.native.ts` (Reanimated, native) both re-export the matching 22-key driver from
+  `@tamagui/config/v5-css` / `v5-reanimated`, so `transition` typechecks the same on both sides.
+  The v4 preset's own driver is CSS-only and animates nothing on native — silently, since a
+  className is simply ignored there. Do not go back to it.
 - **Reanimated is v4**, not v3. Its Babel plugin moved to `react-native-worklets/plugin` and must be
   the last entry in `babel.config.js`.
-- **Vite is v8.** `optimizeDeps.esbuildOptions` is gone; it uses Rolldown.
+- **Vite is v8.** `optimizeDeps.esbuildOptions` is gone; it uses Rolldown. `vite-plugin-svgr` is
+  unusable here: it hoists to the repo root where its own `import('vite')` finds vitest's Vite 7 and
+  the missing `transformWithOxc`. `apps/web/vite.config.ts` inlines the ~20-line equivalent instead.
 - `apps/web` is `"type": "module"` so `vite.config.ts` loads natively.
 - **`vitest@latest` is v5 and needs Node >=22.** Pinned to `^3`. Don't let it float up.
 - Root `resolutions` pins a single `@types/react` / `@types/react-dom`. Without it yarn nests a

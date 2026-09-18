@@ -119,7 +119,8 @@ describe('useUserStore', () => {
 describe('persistence', () => {
   beforeEach(reset)
 
-  function seedStorage(value: PersistedUserState | null) {
+  // Partial so a v1 payload — which had no language — can be seeded to exercise the migration.
+  function seedStorage(value: Partial<PersistedUserState> | null) {
     // Reset before installing the storage: setState goes through persist and would write the
     // current (empty) user straight over the seed.
     useUserStore.setState({ hasHydrated: false })
@@ -143,7 +144,7 @@ describe('persistence', () => {
   }
 
   it('restores a persisted user on rehydrate', async () => {
-    seedStorage({ user: alice })
+    seedStorage({ user: alice, language: 'en' })
     await useUserStore.persist.rehydrate()
 
     expect(useUserStore.getState().user).toEqual(alice)
@@ -159,7 +160,7 @@ describe('persistence', () => {
 
     const written = entries.get('duxcasino.user')
     expect(written).toBeDefined()
-    expect(JSON.parse(written ?? '{}').state).toEqual({ user: alice })
+    expect(JSON.parse(written ?? '{}').state).toEqual({ user: alice, language: 'en' })
   })
 
   it('rehydrating an empty store leaves it signed out but hydrated', async () => {
@@ -168,5 +169,55 @@ describe('persistence', () => {
 
     expect(useUserStore.getState().user).toBeNull()
     expect(useUserStore.getState().hasHydrated).toBe(true)
+  })
+
+  it('writes the language to storage', async () => {
+    const entries = seedStorage(null)
+
+    useUserStore.getState().setLanguage('de')
+    await Promise.resolve()
+
+    expect(JSON.parse(entries.get('duxcasino.user') ?? '{}').state.language).toBe('de')
+  })
+
+  it('restores a persisted language on rehydrate', async () => {
+    seedStorage({ user: null, language: 'it' })
+    await useUserStore.persist.rehydrate()
+
+    expect(useUserStore.getState().language).toBe('it')
+  })
+
+  it('drops a persisted user that does not match the current shape', async () => {
+    // A half-written or foreign payload used to be cast straight through, and a component reading
+    // user.username would throw on it.
+    seedStorage({ user: { id: 'u_1' } } as unknown as Partial<PersistedUserState>)
+    await useUserStore.persist.rehydrate()
+
+    expect(useUserStore.getState().user).toBeNull()
+    expect(useUserStore.getState().hasHydrated).toBe(true)
+  })
+
+  it('falls back to the default language when the persisted one is unknown', async () => {
+    seedStorage({ language: 'xx' } as unknown as Partial<PersistedUserState>)
+    await useUserStore.persist.rehydrate()
+
+    expect(useUserStore.getState().language).toBe('en')
+  })
+
+  it('migrates a v1 payload by keeping its user and defaulting the language', async () => {
+    seedStorage({ user: alice })
+    await useUserStore.persist.rehydrate()
+
+    expect(useUserStore.getState().user).toEqual(alice)
+    expect(useUserStore.getState().language).toBe('en')
+  })
+
+  it('keeps the language across sign out', () => {
+    useUserStore.getState().signIn(alice)
+    useUserStore.getState().setLanguage('fr')
+    useUserStore.getState().signOut()
+
+    expect(useUserStore.getState().user).toBeNull()
+    expect(useUserStore.getState().language).toBe('fr')
   })
 })

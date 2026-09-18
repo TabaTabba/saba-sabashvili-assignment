@@ -78,21 +78,10 @@ function Swatch({ token, label, detail }: SwatchProps) {
   )
 }
 
-interface TokenSwatchesProps {
-  topInset?: number
-}
-
-export function TokenSwatches({ topInset = 0 }: TokenSwatchesProps) {
+export function TokenSwatches() {
   return (
     <ScrollView backgroundColor="$background">
-      <YStack
-        padding="$6"
-        paddingTop={topInset + 24}
-        gap="$9"
-        maxWidth={layout.contentWidth}
-        width="100%"
-        alignSelf="center"
-      >
+      <YStack padding="$6" gap="$9" maxWidth={layout.contentWidth} width="100%" alignSelf="center">
         <Text fontSize="$7" lineHeight="$7" color="$color">
           DuxCasino design tokens
         </Text>

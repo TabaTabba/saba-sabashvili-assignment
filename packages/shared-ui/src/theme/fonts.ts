@@ -1,5 +1,11 @@
 import { createFont, isWeb } from 'tamagui'
 
+export const fontWeight = {
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+} as const
+
 const rubikFamily = isWeb
   ? 'Rubik, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
   : 'Rubik_500Medium'

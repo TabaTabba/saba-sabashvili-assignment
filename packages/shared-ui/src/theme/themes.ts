@@ -29,6 +29,9 @@ const darkOverrides = {
   placeholderColor: palette.violet3,
   shadowColor: palette.night,
 
+  signUpTop: palette.lilacSoft,
+  signUpBottom: palette.lilacStrong,
+
   accent: palette.orange2,
   accentHover: palette.orange2,
   accentPress: palette.orange2,

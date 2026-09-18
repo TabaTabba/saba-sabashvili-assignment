@@ -1,3 +1,4 @@
+export { TopNav } from './features/top-nav'
 export { tamaguiConfig } from './theme/tamagui.config'
 export type { AppConfig } from './theme/tamagui.config'
 export { layout, palette } from './theme/tokens'
