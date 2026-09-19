@@ -19,6 +19,9 @@ export interface Game {
 
 export interface GamesPage {
   games: Game[]
+  /** What this page is a page of. The grid's header reads it so a filter switch cannot label the
+   *  previous category's tiles while they are still on screen. */
+  category: GameCategory
   page: number
   pageSize: number
   total: number

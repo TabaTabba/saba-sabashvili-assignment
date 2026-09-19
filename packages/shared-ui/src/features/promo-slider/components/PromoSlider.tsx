@@ -103,8 +103,10 @@ export function PromoSlider() {
         <YStack
           height={sectionHeight}
           paddingHorizontal={isHero ? 0 : size.gutter}
-          alignItems="center"
-          // The hero's banner is centred in its 455 frame; a card sits at the top of its section.
+          // The hero's banner is centred in its 455 frame; a card sits at the top left of its
+          // section. Centring the card skeleton instead would slide it to the gutter on load —
+          // 189px at 768.
+          alignItems="flex-start"
           justifyContent={isHero ? 'center' : 'flex-start'}
         >
           <Skeleton

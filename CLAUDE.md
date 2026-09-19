@@ -23,7 +23,7 @@ yarn dev:web        # Vite on :5173
 yarn dev:native     # Expo; see the launch sequence below — `expo start --ios` alone fails
 yarn typecheck      # tsc --noEmit across 5 packages, plus scripts/
 yarn lint           # ESLint 9 flat config, plus scripts/
-yarn test           # Vitest — shared-stores, shared-api, shared-ui only
+yarn test           # Vitest — the three packages, plus apps/native's app.json guard
 yarn format:check   # Prettier, code files only (not the hand-wrapped .md)
 yarn shoot <url> <label> [width]   # Playwright screenshots into screenshots/<label>/
 ```
@@ -32,8 +32,9 @@ yarn shoot <url> <label> [width]   # Playwright screenshots into screenshots/<la
 Pass a single width to refresh just that one. It pins `PLAYWRIGHT_BROWSERS_PATH` to `./.browsers` via
 `$INIT_CWD`, so Chromium stays inside the repo — run it from the repo root.
 
-The apps have no `test` script: per the brief, tests are thin and cover the store and hooks only.
-That also keeps `vitest`'s `vite@7` out of the web app, which builds on `vite@8`.
+Tests are thin per the brief — store and hooks only. `apps/web` has no `test` script, which keeps
+`vitest`'s `vite@7` out of the app that builds on `vite@8`; `apps/native` has one solely for
+`appConfig.test.ts`.
 
 ### Running the native app
 
@@ -63,7 +64,7 @@ The very first run of all is the exception: Expo Go has to download, and `openur
 ```
 apps/web          Vite + React + Tamagui
 apps/native       Expo SDK 54 + Tamagui
-packages/shared-ui       features/{top-nav,promo-slider,popular-games} + theme + dev
+packages/shared-ui       features/{top-nav,promo-slider,popular-games} + components + lib + theme
 packages/shared-api      features/{balance,hero-slides,games} — React Query + mocks
 packages/shared-stores   features/user — Zustand + persist
 ```
@@ -71,9 +72,6 @@ packages/shared-stores   features/user — Zustand + persist
 `shared-ui/src/assets/` holds the SVGs. **A plain `import Logo from './logo.svg'` yields a component
 on both platforms** — `react-native-svg-transformer` on Metro, an inline svgr plugin on Vite. The
 ambient type is `types/svg.d.ts`, pulled into every package by `files` in `tsconfig.base.json`.
-
-`shared-ui/src/dev/` holds throwaway demo screens that prove the tokens and store resolve on both
-platforms. Delete the whole folder in Phase 7.
 
 Packages export TypeScript source directly (`"main": "src/index.ts"`) — no build step. Vite compiles
 it; Metro resolves it via `watchFolders` pointing at the repo root.

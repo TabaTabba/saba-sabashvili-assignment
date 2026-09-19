@@ -35,6 +35,11 @@ export function PopularGames({ category }: PopularGamesProps) {
   const loaded = pages.flatMap(page => page.games)
   const total = pages.at(-1)?.total ?? null
 
+  // keepPreviousData holds the previous category's pages through a switch, so the header reads the
+  // category the tiles on screen belong to. Taking the prop instead would put the new name over the
+  // old count and the old tiles for the length of the fetch.
+  const shownCategory = pages[0]?.category ?? category
+
   const tileSize = tileWidth(contentWidth, size.columns, size.columnGap)
 
   // A 10-per-page fetch lands mid-row at 3 columns, so hold the tail back until View more fills it.
@@ -111,7 +116,7 @@ export function PopularGames({ category }: PopularGamesProps) {
       paddingBottom={size.sectionPaddingBottom}
       aria-label="Popular games"
     >
-      <GamesHeader category={category} total={total} isLaptop={isLaptop} size={size} />
+      <GamesHeader category={shownCategory} total={total} isLaptop={isLaptop} size={size} />
 
       {/* The mutation rolls the tile back silently; this is the only thing that says so. */}
       {toggleFavourite.isError ? (

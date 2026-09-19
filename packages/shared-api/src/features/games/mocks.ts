@@ -89,6 +89,7 @@ export async function fetchGames({ category, page, pageSize }: GamesQuery): Prom
 
   return {
     games: matching.slice(start, start + pageSize).map(copy),
+    category,
     page,
     pageSize,
     total: matching.length,

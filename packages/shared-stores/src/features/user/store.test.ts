@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createJSONStorage } from 'zustand/middleware'
+import type { StateStorage } from 'zustand/middleware'
 
+import { createUserStorage } from './createUserStorage'
 import { useUserStore } from './store'
 import type { PersistedUserState, User } from './types'
 
@@ -194,6 +196,41 @@ describe('persistence', () => {
     await useUserStore.persist.rehydrate()
 
     expect(useUserStore.getState().user).toBeNull()
+    expect(useUserStore.getState().hasHydrated).toBe(true)
+  })
+
+  // These two go through createUserStorage rather than seedStorage's createJSONStorage, because the
+  // failure they cover is in the read path createUserStorage replaced.
+  function seedRaw(backend: Partial<StateStorage>) {
+    useUserStore.setState({ hasHydrated: false })
+    useUserStore.persist.setOptions({
+      storage: createUserStorage({
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+        ...backend,
+      }),
+    })
+  }
+
+  it('treats a corrupt payload as nothing stored', async () => {
+    // JSON.parse throwing lands in zustand's hydrate() catch, which skips the finish listeners, so
+    // an unguarded read pins hasHydrated false and the nav never leaves its pre-hydration state.
+    seedRaw({ getItem: () => '{"state":{"user":{"id":"u_a' })
+    await useUserStore.persist.rehydrate()
+
+    expect(useUserStore.getState().user).toBeNull()
+    expect(useUserStore.getState().hasHydrated).toBe(true)
+  })
+
+  it('hydrates even when the storage backend throws on read', async () => {
+    seedRaw({
+      getItem: () => {
+        throw new Error('SecurityError: localStorage is not available')
+      },
+    })
+    await useUserStore.persist.rehydrate()
+
     expect(useUserStore.getState().hasHydrated).toBe(true)
   })
 
