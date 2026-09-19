@@ -52,9 +52,8 @@ export function CategoryDropdown({ activeCategory, onSelectCategory }: CategoryD
       </XStack>
 
       {isOpen ? (
-        // The gap below the trigger is transparent padding on this box, not a top offset. An offset
-        // leaves a strip belonging to neither, and crossing it on the way to an option fires the
-        // wrapper's onMouseLeave and closes the panel before the pointer arrives.
+        // The gap is transparent padding here, not a top offset — an offset leaves a strip that
+        // belongs to neither, and crossing it closes the panel via onMouseLeave.
         <YStack
           position="absolute"
           top="100%"

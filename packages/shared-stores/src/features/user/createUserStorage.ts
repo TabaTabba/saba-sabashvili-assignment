@@ -4,10 +4,9 @@ import type { PersistedUserState } from './types'
 
 type Stored = StorageValue<PersistedUserState>
 
-// A corrupt payload has to read as "nothing stored", not throw: zustand's hydrate() fires its
-// finish listeners only on the success path, so a throw in here pins hasHydrated false forever and
-// the nav never leaves its pre-hydration state. createJSONStorage parses outside this function,
-// where we cannot guard it, which is why the JSON handling is ours.
+// A corrupt payload must read as "nothing stored", not throw: zustand fires its finish listeners
+// only on the success path, so a throw pins hasHydrated false forever. createJSONStorage parses
+// where we cannot guard it, hence our own JSON handling.
 function parse(raw: string | null): Stored | null {
   if (raw === null) return null
 
@@ -18,9 +17,8 @@ function parse(raw: string | null): Stored | null {
   }
 }
 
-// persist re-serialises and writes on every set, so balance ticks would hit disk even though they
-// never change the persisted slice. Dedupe by payload and swallow write failures — a full quota or
-// Safari private mode must not take down a press handler.
+// persist writes on every set, so balance ticks would hit disk without changing the persisted
+// slice. Dedupe by payload, and swallow write failures so a full quota cannot break a press.
 export function createUserStorage(backend: StateStorage): PersistStorage<PersistedUserState> {
   let lastWritten: string | null = null
 
@@ -34,8 +32,7 @@ export function createUserStorage(backend: StateStorage): PersistStorage<Persist
         return null
       }
 
-      // Stays synchronous for localStorage — awaiting here would hydrate a tick late and flash the
-      // signed-out header on every web load.
+      // Synchronous for localStorage — awaiting would flash the signed-out header on every load.
       return raw instanceof Promise ? raw.then(parse, () => null) : parse(raw)
     },
 

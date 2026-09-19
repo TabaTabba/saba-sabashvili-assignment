@@ -9,9 +9,7 @@ interface SlideArtworkProps {
   alt: string
 }
 
-// Owns the failure state so the two platform SlideImage files stay free of everything but the
-// element itself. The fallback is the card surface fading into the page, which reads as part of
-// the design rather than as a broken image.
+// Owns the failure state so the two platform SlideImage files hold nothing but the element.
 export function SlideArtwork({ uri, alt }: SlideArtworkProps) {
   const [hasFailed, setHasFailed] = useState(false)
 

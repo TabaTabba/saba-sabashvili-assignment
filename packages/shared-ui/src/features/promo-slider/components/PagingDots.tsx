@@ -23,10 +23,8 @@ export function PagingDots({ count, index, onSelect, size, idleColor }: PagingDo
       aria-label="Promotion pages"
     >
       {Array.from({ length: count }, (_, dot) => (
-        // A dot is a scroll position, not a slide — two cards share one at 768, and 1024 fits four
-        // slides in three steps. Labelling them "Promotion N" claimed a slide count the track does
-        // not have. aria-current rather than aria-selected, which pressable's role="button" cannot
-        // carry.
+        // A dot is a scroll position, not a slide. aria-current because pressable's role="button"
+        // cannot carry aria-selected.
         <View
           key={dot}
           width={size.dotWidth}

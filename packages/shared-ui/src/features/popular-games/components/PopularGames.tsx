@@ -18,9 +18,8 @@ interface PopularGamesProps {
   category: GameCategory
 }
 
-// The laptop frame (55:829) grids; the tablet (76:1412) and phone (98:5136) frames scroll one row
-// per category. The brief wants one filtered grid, so the grid wins and each frame keeps its own
-// columns, gaps, gutter and header.
+// The smaller frames scroll one row per category; the brief wants one filtered grid, so the grid
+// wins at every width and each frame keeps its own columns, gaps, gutter and header.
 export function PopularGames({ category }: PopularGamesProps) {
   const media = useMedia()
   const [contentWidth, setContentWidth] = useState(0)
@@ -35,9 +34,8 @@ export function PopularGames({ category }: PopularGamesProps) {
   const loaded = pages.flatMap(page => page.games)
   const total = pages.at(-1)?.total ?? null
 
-  // keepPreviousData holds the previous category's pages through a switch, so the header reads the
-  // category the tiles on screen belong to. Taking the prop instead would put the new name over the
-  // old count and the old tiles for the length of the fetch.
+  // keepPreviousData holds the old pages through a switch, so the header reads the category the
+  // tiles on screen belong to rather than the prop.
   const shownCategory = pages[0]?.category ?? category
 
   const tileSize = tileWidth(contentWidth, size.columns, size.columnGap)
@@ -135,9 +133,8 @@ export function PopularGames({ category }: PopularGamesProps) {
   )
 }
 
-// Flex rows rather than measured tiles, because tileWidth still returns 0 on the first paint and a
-// skeleton that grows into its size shifts the page. Flex distributes exactly what tileWidth
-// computes, and the whole-rows rule is the grid's own, so the swap changes neither size nor count.
+// Flex rows rather than measured tiles: tileWidth is still 0 on the first paint, and a skeleton
+// that grows into its size shifts the page. Flex lands on exactly what tileWidth computes.
 interface SkeletonGridProps {
   size: GamesGeometry
 }

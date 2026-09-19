@@ -34,10 +34,14 @@ yarn dev:web       # Vite on http://localhost:5173
 ### Run the native app
 
 ```bash
-yarn dev:native    # Expo; press i for the iOS simulator, a for an Android emulator
+yarn workspace @duxcasino/native ios       # Metro + the iOS simulator
+yarn workspace @duxcasino/native android   # Metro + an Android emulator
 ```
 
-Verified on both: an **iPhone 17** simulator and a **Pixel 8 (API 35)** emulator. On Android, `a`
+Use these rather than `yarn dev:native`, which starts Metro but cannot forward stdin through turbo,
+so Expo's `i`/`a` shortcuts are dead there.
+
+Verified on both: an **iPhone 17** simulator and a **Pixel 8 (API 35)** emulator. On Android, Expo
 installs Expo Go and sets up the `adb reverse` itself.
 
 If `expo start --ios` hangs on a cold simulator, it is `simctl openurl` timing out while Expo Go
@@ -317,6 +321,13 @@ Tamagui font entry for one text node was not a trade worth making.
 **Tablet and phone tiles are 131 and 99, not the frames' 150 and 120.** Those frames' rows overflow
 by 94 and 64 because they scroll. A grid has to fit, so the column count, gaps and gutter are the
 frame's and the tile takes what is left.
+
+**Tamagui's `Button` is not used.** The brief names it in the primitive list; every control here is
+built from `YStack`/`XStack`/`Text` plus `lib/pressable.ts`. Each button in the design is a specific
+shape — a gradient pill, a bordered pill, a violet veil, a circle — and `Button` brings its own
+height scale and internal layout to override at every call site. `pressable()` also had to spread
+onto a `LinearGradient`, which a `Button` wrapper could not do. `YStack`, `XStack`, `Text` and
+`Image` are all used as the brief asks.
 
 **One word of the promo card's subline should be orange** (`+**150** Free Spins`). That needs the
 copy split into parts in the mock API; it renders white.

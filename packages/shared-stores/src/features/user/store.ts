@@ -76,9 +76,8 @@ export const useUserStore = create<UserState>()(
       version: 2,
       storage: userStorage,
       partialize: (state): PersistedUserState => ({ user: state.user, language: state.language }),
-      // Without this a version bump throws inside persist, and the catch leaves the app
-      // permanently unhydrated rather than merely signed out. v1 held only the user, so a v1
-      // payload keeps its user and picks up the default language.
+      // Without this a version bump throws inside persist and leaves the app unhydrated rather
+      // than merely signed out. A v1 payload keeps its user and picks up the default language.
       migrate: parsePersisted,
       // migrate only runs on a version change, so the same parse guards every other load too.
       merge: (persisted, current) => ({ ...current, ...parsePersisted(persisted) }),
@@ -87,8 +86,7 @@ export const useUserStore = create<UserState>()(
 )
 
 // Wired after create, not via onRehydrateStorage: localStorage hydrates synchronously inside
-// create(), so a callback referencing useUserStore there hits the temporal dead zone and persist
-// swallows the error. Web is already hydrated by this line; native finishes a tick later.
+// create(), so a callback referencing useUserStore there hits the temporal dead zone.
 const markHydrated = () => useUserStore.setState({ hasHydrated: true })
 
 useUserStore.persist.onFinishHydration(markHydrated)

@@ -18,8 +18,7 @@ interface GameTileProps {
   onToggleFavourite: () => void
 }
 
-// One shared placeholder means no artwork, so the name and line count the design keeps inside it
-// are drawn in a scrim footer instead.
+// One shared placeholder means no artwork, so the name the design bakes into it goes in a scrim.
 export function GameTile({ game, tileSize, size, onToggleFavourite }: GameTileProps) {
   const footerHeight = size.badgeSize * FOOTER_SCRIM_HEIGHT_RATIO
 
@@ -64,7 +63,7 @@ export function GameTile({ game, tileSize, size, onToggleFavourite }: GameTilePr
         end={[0, 1]}
         justifyContent="flex-end"
       >
-        {/* Its own row: sharing one leaves the name four characters at the phone tile's 99px. */}
+        {/* Its own row — sharing leaves the name four characters at the phone tile's 99px. */}
         <YStack {...aboveGradient} gap={size.badgeGap}>
           {game.badges.lines === null ? null : (
             <XStack

@@ -61,8 +61,7 @@ export function LanguageSelector({ size, flagWidth, flagHeight }: LanguageSelect
       </YStack>
 
       {isOpen ? (
-        // Transparent padding rather than a top offset — see CategoryDropdown: an offset leaves a
-        // strip that belongs to neither, and crossing it closes the panel via onMouseLeave.
+        // Transparent padding rather than a top offset — see CategoryDropdown.
         <YStack
           position="absolute"
           top="100%"

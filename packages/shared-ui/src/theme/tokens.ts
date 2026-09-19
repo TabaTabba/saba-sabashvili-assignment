@@ -143,10 +143,8 @@ export const nav = {
   burgerBarGap: 3,
 } as const
 
-// Promo geometry, measured off the three design frames. The design draws two different components
-// here: a full-bleed hero banner on the laptop page (49:177) and a card carousel on the tablet
-// (72:1306) and phone (96:5100) pages. `tablet` and `phone` share a key shape so one lookup picks
-// either; `hero` is its own shape because it lays out nothing like a card.
+// Measured off laptop 49:177 (a hero banner), tablet 72:1306 and phone 96:5100 (a card carousel).
+// `tablet` and `phone` share a key shape so one lookup picks either; `hero` lays out nothing alike.
 export const promo = {
   hero: {
     frameWidth: 1366,
@@ -221,9 +219,8 @@ export const games = {
     headingPaddingBottom: 30,
     headerFont: '$7', // 55:830 is Rubik Bold 30/35 caps
     headerWeight: 'bold',
-    // 55:829 itself has none — the page stacks its frames flush and section 03 RATINGS (55:566)
-    // supplies the air above the title. That strip is out of scope, so its own 46 top padding
-    // stands in, which keeps the design's rhythm below the hero banner.
+    // The page stacks its frames flush; the air above the title belongs to section 03 RATINGS,
+    // which is out of scope, so its own 46 top padding stands in.
     sectionPaddingTop: 46,
     // The laptop frame heads the section with a title, not a counter row. Present as undefined so
     // the three sets share a shape, as `nav` does with `frameWidth`.

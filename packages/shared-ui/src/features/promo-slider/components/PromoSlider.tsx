@@ -18,17 +18,8 @@ import { SwipeButton } from './SwipeButton'
 
 const { hero } = promo
 
-// The design draws two different components in this slot: the laptop page a full-bleed hero banner
-// (49:177), the tablet and phone pages a carousel of promo cards (72:1306, 96:5100). Both are one
-// track with one index, so autoplay, wrapping and the keyboard behaviour are written once.
-//
-// Three deviations from the frames, all taken for the brief:
-// - the phone frame has no arrows, only dots. The brief requires arrows, so the tablet's 24px pair
-//   carries over and the dots stay as the larger target.
-// - the payments strip sits inside the hero block at $xl per the design, and below the dots on the
-//   card layouts, where the design defers it to a separate footer section.
-// - the track is translated a card at a time and clamped at its end rather than free-scrolled;
-//   a translated track behaves identically on both platforms, a ScrollView's snapping does not.
+// The laptop frame draws a hero banner, the smaller frames a card carousel. One track with one
+// index, so autoplay, wrapping and keyboard behaviour are written once.
 export function PromoSlider() {
   const media = useMedia()
   const { data: slides, isPending, isError, refetch } = useHeroSlides()
@@ -41,10 +32,8 @@ export function PromoSlider() {
   const size = media.md ? promo.tablet : promo.phone
   const slideCount = slides?.length ?? 0
 
-  // Resting positions come from the measured track, not from the breakpoint: 1024 fits two and a
-  // half cards, so a step count pinned to the tablet frame would stop with dead space on the right.
-  // Until onLayout has run there is one position, not a guess — a guess renders the wrong number
-  // of dots for a frame, because the card step is a constant and only the viewport is unknown.
+  // Measured, not derived from the breakpoint: 1024 fits two and a half cards, so a step count
+  // pinned to the tablet frame stops with dead space. One position until onLayout runs, never a guess.
   const viewport = Math.max(0, trackWidth - (isHero ? 0 : size.gutter * 2))
   const step = isHero ? viewport : size.cardWidth + size.cardGap
   const trackLength = isHero
@@ -56,14 +45,12 @@ export function PromoSlider() {
   const { index, goTo, goNext, goPrevious } = useCarousel(stepCount, isPaused)
   const offset = Math.min(index * step, maxOffset)
 
-  // Every promo in the design needs an account, so the CTA takes the same demo sign-in the header
-  // does. Once signed in there is nowhere for it to go in this build.
+  // No auth in this build, so the CTA takes the same demo sign-in the header does.
   function claimPromo() {
     if (!user) signIn(DEMO_USER)
   }
 
-  // Loading and error reserve what the loaded section measures, so the page below does not jump when
-  // the query settles. Keep this in step with what the success branch actually renders.
+  // Loading and error reserve the loaded height, so the page below does not jump on settle.
   const sectionHeight = isHero
     ? hero.height
     : size.cardHeight + size.dotRowHeight + paymentsStripHeight(size.cardWidth)
@@ -72,8 +59,7 @@ export function PromoSlider() {
   const arrowInset = isHero ? hero.arrowInset : size.arrowInset
   const arrowTop = isHero ? hero.arrowTop : (size.cardHeight - size.arrowSize) / 2
 
-  // The region wrapper stays put across all three states so the landmark, and the hover-to-pause
-  // it carries, do not come and go with the query.
+  // One wrapper across all three states, so the landmark and hover-to-pause do not come and go.
   return (
     <YStack
       width="100%"
@@ -103,9 +89,7 @@ export function PromoSlider() {
         <YStack
           height={sectionHeight}
           paddingHorizontal={isHero ? 0 : size.gutter}
-          // The hero's banner is centred in its 455 frame; a card sits at the top left of its
-          // section. Centring the card skeleton instead would slide it to the gutter on load —
-          // 189px at 768.
+          // A card sits at its section's top left; centring the skeleton slides it on load.
           alignItems="flex-start"
           justifyContent={isHero ? 'center' : 'flex-start'}
         >

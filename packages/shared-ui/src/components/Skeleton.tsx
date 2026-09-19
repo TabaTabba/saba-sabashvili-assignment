@@ -5,8 +5,8 @@ import { YStack } from 'tamagui'
 const PULSE_MS = 700
 const DIM = 0.45
 
-// A fixed box for the slider, a flex-distributed square for the grid. Either pair, never a mix and
-// never neither — four optional props would have let a caller render a silent 0x0.
+// A fixed box for the slider, a flex square for the grid. Either pair, never a mix — four optional
+// props would let a caller render a silent 0x0.
 type SkeletonSize =
   { width: number | '100%'; height: number } | { flex: number; aspectRatio: number }
 
@@ -23,9 +23,8 @@ export function Skeleton({ borderRadius, label, ...size }: SkeletonProps) {
     return () => clearInterval(timer)
   }, [])
 
-  // The pulse is on an inner fill because Tamagui's `transition` covers every animatable property.
-  // On the sized box it animated width and height too, so a skeleton reaching its measured size
-  // shifted the page once per frame.
+  // The pulse is on an inner fill: Tamagui's `transition` is `all`, so on the sized box it animated
+  // width and height too and shifted the page once per frame.
   return (
     <YStack {...size} aria-busy aria-label={label}>
       <YStack

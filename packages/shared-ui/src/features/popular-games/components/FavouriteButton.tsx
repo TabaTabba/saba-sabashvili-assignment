@@ -13,8 +13,7 @@ interface FavouriteButtonProps {
   onPress: () => void
 }
 
-// Authored — the design has no favourite control. The badge row's height is the hit area, so a
-// 15px glyph is still a target on a phone.
+// Authored — the design has no favourite control. The badge row's height is the hit area.
 export function FavouriteButton({ name, isFavourite, size, onPress }: FavouriteButtonProps) {
   const Heart = isFavourite ? HeartFilled : HeartOutline
 

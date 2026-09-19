@@ -4,9 +4,8 @@ interface SlideImageProps {
   onError: () => void
 }
 
-// Web implementation; Metro picks SlideImage.native.tsx over this one. Tamagui's Image has no
-// `loading` prop, so the artwork drops to a plain img here to get the browser's lazy loading.
-// There is no .web.tsx twin — this file is both the web build and what tsc resolves.
+// Metro picks SlideImage.native.tsx over this one; there is deliberately no .web twin. Tamagui's
+// Image has no `loading` prop, so this drops to a plain img for the browser's lazy loading.
 export function SlideImage({ uri, alt, onError }: SlideImageProps) {
   return (
     <img

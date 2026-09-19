@@ -15,16 +15,15 @@ interface GamesHeaderProps {
   size: GamesGeometry
 }
 
-// The laptop frame (55:828) centres a heading; the smaller frames (80:1357, 98:5137) put the
-// category left and a counter right. No category icons — the design has them for five of our seven.
+// The laptop frame centres a heading; the smaller ones put the category left and a counter right.
+// No category icons — the design has them for five of our seven.
 export function GamesHeader({ category, total, isLaptop, size }: GamesHeaderProps) {
   const label = category === 'all' ? 'Popular Games' : CATEGORY_LABELS[category]
 
   const heading = (
     <Text
-      // The laptop title block is 55 tall with 30 of bottom padding, so its content box is 25
-      // against a 35 line — the design spills the text 5 above. Without this the flex row shrinks
-      // the Text to 25 and it clips its own glyphs, which a getBoundingClientRect check cannot see.
+      // The laptop title block leaves a 25 content box for a 35 line and the design spills the
+      // text above it. Without this the row shrinks the Text and it clips its own glyphs.
       flexShrink={0}
       fontSize={size.headerFont}
       lineHeight={size.headerFont}
@@ -65,7 +64,6 @@ interface CounterProps {
   size: GamesGeometry
 }
 
-// btn COUNTER [bage] 77:1419; the phone variant 98:5144 drops the fill.
 function Counter({ total, size }: CounterProps) {
   const above = size.counterHasGradient ? aboveGradient : {}
 

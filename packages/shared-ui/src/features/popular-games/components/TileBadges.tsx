@@ -13,8 +13,7 @@ interface TileBadgesProps {
   size: GamesGeometry
 }
 
-// Labels 107:3803. The caller bounds the row's right edge, so the pill shrinks instead of reaching
-// under the favourite control.
+// The caller bounds the row's right edge, so the pill shrinks rather than run under the heart.
 export function TileBadges({ badges, size }: TileBadgesProps) {
   return (
     <XStack flexShrink={1} gap={size.badgeGap} alignItems="center" overflow="hidden">

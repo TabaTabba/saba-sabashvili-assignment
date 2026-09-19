@@ -35,7 +35,7 @@ function AppShell({ activeCategory, onSelectCategory }: AppShellProps) {
   return (
     <YStack flex={1} backgroundColor="$background" paddingTop={insets.top}>
       <TopNav activeCategory={activeCategory} onSelectCategory={onSelectCategory} />
-      {/* Pad the scroll content, never the scroll container — see PROGRESS. */}
+      {/* Pad the scroll content, never the container — padding the container leaves a white band. */}
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom }}>
         <PromoSlider />
         <PopularGames category={activeCategory} />

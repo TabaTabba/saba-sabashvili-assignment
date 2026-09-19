@@ -11,7 +11,6 @@ interface ViewMoreButtonProps {
   onPress: () => void
 }
 
-// btn HERO [violet] 56:841 — the header's Sign up veil at 228x46.
 export function ViewMoreButton({ isLoading, onPress }: ViewMoreButtonProps) {
   return (
     <LinearGradient

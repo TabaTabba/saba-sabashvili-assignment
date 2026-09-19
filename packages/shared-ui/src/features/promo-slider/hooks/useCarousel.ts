@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { AUTOPLAY_MS } from '../constants'
 
-// `stepCount` is the number of resting positions, not the number of slides: the tablet frame shows
-// two cards at once, so four slides rest in three places.
+// `stepCount` is resting positions, not slides — two cards share a step, so four slides rest in three.
 export function useCarousel(stepCount: number, isPaused: boolean) {
   const [step, setStep] = useState(0)
 
@@ -23,8 +22,7 @@ export function useCarousel(stepCount: number, isPaused: boolean) {
 
   useEffect(() => {
     if (isPaused || stepCount < 2) return
-    // `index` is a dependency so manual navigation restarts the interval rather than leaving the
-    // next automatic advance a few hundred milliseconds away.
+    // `index` is a dependency so manual navigation restarts the interval.
     const timer = setInterval(() => setStep(current => (current + 1) % stepCount), AUTOPLAY_MS)
     return () => clearInterval(timer)
   }, [index, isPaused, stepCount])

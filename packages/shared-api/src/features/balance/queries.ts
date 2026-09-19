@@ -27,9 +27,8 @@ export function useUserBalance() {
   const { refetch, isFetching, data, error } = query
   const lastToken = useRef(refreshToken)
 
-  // refreshToken is watched rather than put in the queryKey: a new key per refresh would mint a
-  // fresh cache entry and flash the loading state instead of refetching in the background. The ref
-  // fires only on a real increment, so a sign-in with a stale token does not also refetch.
+  // Watched rather than put in the queryKey: a new key per refresh mints a fresh cache entry and
+  // flashes the loading state. The ref fires only on a real increment.
   useEffect(() => {
     if (refreshToken === lastToken.current) return
     lastToken.current = refreshToken

@@ -1,8 +1,8 @@
 // Failures on demand, so the error, empty and rollback states are demonstrable rather than
 // luck-dependent. Nothing in the UI toggles them — `applyFaultsFromQuery` below is the way in.
-export const FAULT_KEYS = ['balance', 'heroSlides', 'games', 'gamesEmpty', 'favourite'] as const
+const FAULT_KEYS = ['balance', 'heroSlides', 'games', 'gamesEmpty', 'favourite'] as const
 
-export type FaultKey = (typeof FAULT_KEYS)[number]
+type FaultKey = (typeof FAULT_KEYS)[number]
 
 const active = new Set<FaultKey>()
 

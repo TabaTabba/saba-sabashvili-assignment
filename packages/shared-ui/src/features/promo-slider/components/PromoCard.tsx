@@ -15,9 +15,7 @@ interface PromoCardProps {
   onPressCta: () => void
 }
 
-// The tablet (70:1292) and phone (96:5031) frames. Two deliberate substitutions, both noted in
-// PROGRESS: the amount is Montserrat Bold 32 in Figma and Rubik Bold 32 here, and the design tints
-// part of the subline orange, which needs a copy split the mock API does not carry.
+// The amount is Montserrat in Figma — the design's only Montserrat style, not worth a second face.
 export function PromoCard({ slide, size, onPressCta }: PromoCardProps) {
   return (
     <XStack
