@@ -12,7 +12,7 @@ import { promo, radius } from '../../../theme/tokens'
 import { useCarousel } from '../hooks/useCarousel'
 import { HeroSlide } from './HeroSlide'
 import { PagingDots } from './PagingDots'
-import { PaymentsStrip } from './PaymentsStrip'
+import { PaymentsStrip, paymentsStripHeight } from './PaymentsStrip'
 import { PromoCard } from './PromoCard'
 import { SwipeButton } from './SwipeButton'
 
@@ -62,6 +62,12 @@ export function PromoSlider() {
     if (!user) signIn(DEMO_USER)
   }
 
+  // Loading and error reserve what the loaded section measures, so the page below does not jump when
+  // the query settles. Keep this in step with what the success branch actually renders.
+  const sectionHeight = isHero
+    ? hero.height
+    : size.cardHeight + size.dotRowHeight + paymentsStripHeight(size.cardWidth)
+
   const arrowSize = isHero ? hero.arrowSize : size.arrowSize
   const arrowInset = isHero ? hero.arrowInset : size.arrowInset
   const arrowTop = isHero ? hero.arrowTop : (size.cardHeight - size.arrowSize) / 2
@@ -85,12 +91,7 @@ export function PromoSlider() {
       }}
     >
       {isError ? (
-        <YStack
-          height={isHero ? hero.height : size.cardHeight}
-          alignItems="center"
-          justifyContent="center"
-          gap="$3"
-        >
+        <YStack height={sectionHeight} alignItems="center" justifyContent="center" gap="$3">
           <Text fontSize="$4" color="$colorMuted">
             Promotions are unavailable right now.
           </Text>
@@ -99,7 +100,13 @@ export function PromoSlider() {
           </Text>
         </YStack>
       ) : isPending || !slides ? (
-        <YStack paddingHorizontal={isHero ? 0 : size.gutter} alignItems="center">
+        <YStack
+          height={sectionHeight}
+          paddingHorizontal={isHero ? 0 : size.gutter}
+          alignItems="center"
+          // The hero's banner is centred in its 455 frame; a card sits at the top of its section.
+          justifyContent={isHero ? 'center' : 'flex-start'}
+        >
           <Skeleton
             width={isHero ? '100%' : size.cardWidth}
             height={isHero ? hero.bannerHeight : size.cardHeight}

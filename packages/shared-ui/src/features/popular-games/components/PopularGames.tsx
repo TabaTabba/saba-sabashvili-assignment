@@ -56,19 +56,7 @@ export function PopularGames({ category }: PopularGamesProps) {
     }
 
     if (isPending || tileSize === 0) {
-      return (
-        <Grid size={size}>
-          {Array.from({ length: PAGE_SIZE }, (_, index) => (
-            <Skeleton
-              key={index}
-              width={tileSize}
-              height={tileSize}
-              borderRadius={games.tileRadius}
-              label="Loading games"
-            />
-          ))}
-        </Grid>
-      )
+      return <SkeletonGrid size={size} />
     }
 
     if (loaded.length === 0) {
@@ -138,6 +126,35 @@ export function PopularGames({ category }: PopularGamesProps) {
       >
         {renderBody()}
       </YStack>
+    </YStack>
+  )
+}
+
+// Flex rows rather than measured tiles, because tileWidth still returns 0 on the first paint and a
+// skeleton that grows into its size shifts the page. Flex distributes exactly what tileWidth
+// computes, and the whole-rows rule is the grid's own, so the swap changes neither size nor count.
+interface SkeletonGridProps {
+  size: GamesGeometry
+}
+
+function SkeletonGrid({ size }: SkeletonGridProps) {
+  const rows = Math.floor(PAGE_SIZE / size.columns)
+
+  return (
+    <YStack gap={size.rowGap}>
+      {Array.from({ length: rows }, (_, row) => (
+        <XStack key={row} gap={size.columnGap}>
+          {Array.from({ length: size.columns }, (_, column) => (
+            <Skeleton
+              key={column}
+              flex={1}
+              aspectRatio={1}
+              borderRadius={games.tileRadius}
+              label="Loading games"
+            />
+          ))}
+        </XStack>
+      ))}
     </YStack>
   )
 }
