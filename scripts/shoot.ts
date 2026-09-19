@@ -55,18 +55,26 @@ async function main() {
       if (sliderBox) await page.mouse.move(sliderBox.x + sliderBox.width / 2, sliderBox.y + 8)
 
       // Off-screen slides are lazy and may never load, so only what is on screen has to be ready.
+      // Skeletons have to be gone first: while a section is still loading it owns no <img> at all,
+      // and `every` over an empty document.images is vacuously true — which captured a slider that
+      // had not mounted its artwork yet. `complete` alone is not enough either, since it is true
+      // for an image that errored, so the decoded size is what gets checked.
       await page
         .waitForFunction(
-          () =>
-            Array.prototype.every.call(document.images, function (image: HTMLImageElement) {
+          () => {
+            // `aria-busy="false"` stays in the DOM on the settled page, so match the value.
+            if (document.querySelector('[aria-busy="true"]')) return false
+
+            return Array.prototype.every.call(document.images, function (image: HTMLImageElement) {
               const box = image.getBoundingClientRect()
               const onScreen =
                 box.right > 0 &&
                 box.left < window.innerWidth &&
                 box.bottom > 0 &&
                 box.top < window.innerHeight
-              return !onScreen || image.complete
-            }),
+              return !onScreen || (image.complete && image.naturalWidth > 0)
+            })
+          },
           null,
           { timeout: ARTWORK_TIMEOUT_MS },
         )
