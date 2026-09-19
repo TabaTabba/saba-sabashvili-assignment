@@ -10,8 +10,6 @@ import { pressable } from '../../../lib/pressable'
 import { nav } from '../../../theme/tokens'
 import { HAIRLINE, PANEL } from '../constants'
 
-const PANEL_TOP = 26
-
 interface CategoryDropdownProps {
   activeCategory: GameCategory
   onSelectCategory: (category: GameCategory) => void
@@ -54,32 +52,39 @@ export function CategoryDropdown({ activeCategory, onSelectCategory }: CategoryD
       </XStack>
 
       {isOpen ? (
+        // The gap below the trigger is transparent padding on this box, not a top offset. An offset
+        // leaves a strip belonging to neither, and crossing it on the way to an option fires the
+        // wrapper's onMouseLeave and closes the panel before the pointer arrives.
         <YStack
           position="absolute"
-          top={PANEL_TOP}
+          top="100%"
           left={0}
-          minWidth={PANEL.minWidth}
+          paddingTop={PANEL.gap}
           zIndex={PANEL.zIndex}
-          padding="$3"
-          gap="$3"
-          backgroundColor="$surface"
-          borderRadius="$3"
-          borderWidth={HAIRLINE}
-          borderColor="$borderColor"
         >
-          {GAME_CATEGORIES.map(category => (
-            <Text
-              key={category}
-              fontSize="$2"
-              fontWeight={fontWeight.bold}
-              textTransform="uppercase"
-              color={category === activeCategory ? '$accent' : '$color'}
-              hoverStyle={{ color: '$accent' }}
-              {...pressable(() => select(category))}
-            >
-              {CATEGORY_LABELS[category]}
-            </Text>
-          ))}
+          <YStack
+            minWidth={PANEL.minWidth}
+            padding="$3"
+            gap="$3"
+            backgroundColor="$surface"
+            borderRadius="$3"
+            borderWidth={HAIRLINE}
+            borderColor="$borderColor"
+          >
+            {GAME_CATEGORIES.map(category => (
+              <Text
+                key={category}
+                fontSize="$2"
+                fontWeight={fontWeight.bold}
+                textTransform="uppercase"
+                color={category === activeCategory ? '$accent' : '$color'}
+                hoverStyle={{ color: '$accent' }}
+                {...pressable(() => select(category))}
+              >
+                {CATEGORY_LABELS[category]}
+              </Text>
+            ))}
+          </YStack>
         </YStack>
       ) : null}
     </YStack>

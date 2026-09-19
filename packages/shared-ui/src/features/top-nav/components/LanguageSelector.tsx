@@ -61,27 +61,33 @@ export function LanguageSelector({ size, flagWidth, flagHeight }: LanguageSelect
       </YStack>
 
       {isOpen ? (
+        // Transparent padding rather than a top offset — see CategoryDropdown: an offset leaves a
+        // strip that belongs to neither, and crossing it closes the panel via onMouseLeave.
         <YStack
           position="absolute"
-          top={size + PANEL.gap}
+          top="100%"
           right={0}
-          minWidth={PANEL.minWidth}
+          paddingTop={PANEL.gap}
           zIndex={PANEL.zIndex}
-          padding="$3"
-          gap="$3"
-          backgroundColor="$surface"
-          borderRadius="$3"
-          borderWidth={HAIRLINE}
-          borderColor="$borderColor"
         >
-          {LANGUAGES.map(option => (
-            <LanguageOption
-              key={option}
-              language={option}
-              isActive={option === language}
-              onPress={() => select(option)}
-            />
-          ))}
+          <YStack
+            minWidth={PANEL.minWidth}
+            padding="$3"
+            gap="$3"
+            backgroundColor="$surface"
+            borderRadius="$3"
+            borderWidth={HAIRLINE}
+            borderColor="$borderColor"
+          >
+            {LANGUAGES.map(option => (
+              <LanguageOption
+                key={option}
+                language={option}
+                isActive={option === language}
+                onPress={() => select(option)}
+              />
+            ))}
+          </YStack>
         </YStack>
       ) : null}
     </YStack>

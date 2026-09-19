@@ -22,6 +22,10 @@ export function GamesHeader({ category, total, isLaptop, size }: GamesHeaderProp
 
   const heading = (
     <Text
+      // The laptop title block is 55 tall with 30 of bottom padding, so its content box is 25
+      // against a 35 line — the design spills the text 5 above. Without this the flex row shrinks
+      // the Text to 25 and it clips its own glyphs, which a getBoundingClientRect check cannot see.
+      flexShrink={0}
       fontSize={size.headerFont}
       lineHeight={size.headerFont}
       fontWeight={fontWeight[size.headerWeight]}
